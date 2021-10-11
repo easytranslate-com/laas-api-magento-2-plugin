@@ -10,4 +10,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="EasyTranslate\Connector\Model\Callback\LinkGenerator">
+        <arguments>
+            <argument name="url" xsi:type="object">Magento\Framework\Url</argument>
+        </arguments>
+    </type>
 </config>
