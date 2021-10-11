@@ -1,0 +1,248 @@
+<?xml version="1.0" ?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">easytranslate_project_form.projects_form_data_source</item>
+        </item>
+        <item name="label" translate="true" xsi:type="string">EasyTranslate Projects</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button class="EasyTranslate\Connector\Block\Adminhtml\Project\Edit\BackButton" name="back"/>
+            <button class="EasyTranslate\Connector\Block\Adminhtml\Project\Edit\DeleteButton" name="delete"/>
+            <button class="EasyTranslate\Connector\Block\Adminhtml\Project\Edit\SaveButton" name="save"/>
+            <button class="EasyTranslate\Connector\Block\Adminhtml\Project\Edit\SaveAndContinueButton" name="save_and_continue"/>
+            <button class="EasyTranslate\Connector\Block\Adminhtml\Project\Edit\SendButton" name="send"/>
+            <button class="EasyTranslate\Connector\Block\Adminhtml\Project\Edit\ImportButton" name="import"/>
+            <button class="EasyTranslate\Connector\Block\Adminhtml\Project\Edit\AcceptPriceButton" name="accept_price"/>
+            <button class="EasyTranslate\Connector\Block\Adminhtml\Project\Edit\DeclinePriceButton" name="decline_price"/>
+        </buttons>
+        <namespace>easytranslate_project_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>easytranslate_project_form.projects_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="projects_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="*/*/save"/>
+        </settings>
+        <dataProvider class="EasyTranslate\Connector\Model\Project\DataProvider" name="projects_form_data_source">
+            <settings>
+                <requestFieldName>project_id</requestFieldName>
+                <primaryFieldName>project_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general" sortOrder="10">
+        <settings>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+            <label>General</label>
+        </settings>
+        <field name="name" formElement="input" sortOrder="10">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+                <dataScope>name</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="max_text_length" xsi:type="string">50</rule>
+                </validation>
+                <imports>
+                    <link name="disabled">${ $.provider }:data.disabled</link>
+                </imports>
+            </settings>
+        </field>
+        <field name="team" formElement="select" sortOrder="20">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Account</label>
+                <dataScope>team</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="max_text_length" xsi:type="string">150</rule>
+                </validation>
+                <tooltip>
+                    <description translate="true">If no account is displayed, please check your API and EasyTranslate settings.</description>
+                </tooltip>
+                <imports>
+                    <link name="disabled">${ $.provider }:data.disabled</link>
+                </imports>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="EasyTranslate\Connector\Model\Config\Source\Team"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="status" formElement="select" sortOrder="30">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">open</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Status</label>
+                <dataScope>status</dataScope>
+                <dataType>text</dataType>
+                <elementTmpl>EasyTranslate_Connector/form/element/selected-label</elementTmpl>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="EasyTranslate\Connector\Model\Config\Source\Status"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="price" formElement="input" sortOrder="30">
+            <settings>
+                <imports>
+                    <link name="visible">${ $.provider }:data.price-visibility.visible</link>
+                </imports>
+                <elementTmpl>ui/form/element/text</elementTmpl>
+                <dataType>text</dataType>
+                <label translate="true">Price</label>
+                <dataScope>price</dataScope>
+            </settings>
+        </field>
+        <field name="source_store_id" formElement="select" sortOrder="40">
+            <settings>
+                <imports>
+                    <link name="disabled">${ $.provider }:data.disabled</link>
+                </imports>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>int</dataType>
+                <tooltip>
+                    <link>https://docs.magento.com/user-guide/configuration/scope.html</link>
+                    <description>What is this?</description>
+                </tooltip>
+                <label translate="true">Source Store View</label>
+                <dataScope>source_store_id</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Store\Ui\Component\Listing\Column\Store\Options"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="target_store_ids" formElement="multiselect" class="Magento\Store\Ui\Component\Form\Field\StoreView" sortOrder="50">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>int</dataType>
+                <tooltip>
+                    <link>https://docs.magento.com/user-guide/configuration/scope.html</link>
+                    <description>What is this?</description>
+                </tooltip>
+                <label translate="true">Target Store Views</label>
+                <dataScope>target_store_ids</dataScope>
+                <imports>
+                    <link name="disabled">${ $.provider }:data.disabled</link>
+                </imports>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Magento\Store\Ui\Component\Listing\Column\Store\Options"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+        <field name="workflow" formElement="select" sortOrder="60">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Workflow</label>
+                <dataScope>workflow</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <imports>
+                    <link name="disabled">${ $.provider }:data.disabled</link>
+                </imports>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="EasyTranslate\Connector\Model\Config\Source\Workflow"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="automatic_import" formElement="select" sortOrder="70">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Automatic Import</label>
+                <dataScope>automatic_import</dataScope>
+                <imports>
+                    <link name="disabled">${ $.provider }:data.disabled</link>
+                </imports>
+            </settings>
+            <formElements>
+                <select sortOrder="90">
+                    <settings>
+                        <options class="Magento\Config\Model\Config\Source\Yesno"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+    <fieldset name="products" sortOrder="20">
+        <settings>
+            <collapsible>true</collapsible>
+            <label>Products</label>
+        </settings>
+        <container name="assign_products_to_project_container">
+            <htmlContent name="html_content">
+                <block name="products" class="EasyTranslate\Connector\Block\Adminhtml\Project\AssignedProducts"/>
+            </htmlContent>
+        </container>
+    </fieldset>
+    <fieldset name="categories" sortOrder="30">
+        <settings>
+            <collapsible>true</collapsible>
+            <label>Categories</label>
+        </settings>
+        <container name="assign_categories_to_project_container">
+            <htmlContent name="html_content">
+                <block name="categories" class="EasyTranslate\Connector\Block\Adminhtml\Project\AssignedCategories"/>
+            </htmlContent>
+        </container>
+    </fieldset>
+    <fieldset name="cms_blocks" sortOrder="40">
+        <settings>
+            <collapsible>true</collapsible>
+            <label>CMS Blocks</label>
+        </settings>
+        <container name="assign_cms_blocks_to_project_container">
+            <htmlContent name="html_content">
+                <block name="cmsBlocks" class="EasyTranslate\Connector\Block\Adminhtml\Project\AssignedCmsBlocks"/>
+            </htmlContent>
+        </container>
+    </fieldset>
+    <fieldset name="cms_pages" sortOrder="50">
+        <settings>
+            <collapsible>true</collapsible>
+            <label>CMS Pages</label>
+        </settings>
+        <container name="assign_cms_pages_to_project_container">
+            <htmlContent name="html_content">
+                <block name="cmsPages" class="EasyTranslate\Connector\Block\Adminhtml\Project\AssignedCmsPages"/>
+            </htmlContent>
+        </container>
+    </fieldset>
+</form>

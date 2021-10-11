@@ -1,0 +1,26 @@
+<?php
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+/** @var \EasyTranslate\Connector\Block\Adminhtml\Project\AbstractBlock $block */
+
+$blockGrid = $block->getBlockGrid();
+$gridJsObjectName = $blockGrid->getJsObjectName();
+?>
+<?= $block->getGridHtml() ?>
+<input type="hidden"
+       name="<?= /* @noEscape */ $block->getInputName() ?>"
+       id="<?= /* @noEscape */ $block->getInputName() ?>"
+       data-form-part="easytranslate_project_form"
+       value=""/>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "EasyTranslate_Connector/project/assign-column": {
+                "selectedEntities": <?= /* @noEscape */ $block->getEntitiesJson() ?>,
+                "gridJsObjectName": <?= /* @noEscape */ '"' . $gridJsObjectName . '"' ?: '{}' ?>,
+                "gridParam": <?= /* @noEscape */ '"' . $block->getGridParam() . '"' ?>,
+                "name":<?= /* @noEscape */ '"' . $block->getInputName() . '"'  ?>
+            }
+        }
+    }
+</script>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], "require('mage/apply/main').apply();", false) ?>

@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="easytranslate_project" comment="EasyTranslate Project">
+        <column name="project_id" xsi:type="int" nullable="false" identity="true" unsigned="true" comment="Project ID"/>
+        <column name="external_id" xsi:type="varchar" length="255" comment="External ID"/>
+        <column name="secret" xsi:type="varchar" length="255" comment="Secret"/>
+        <column name="name" xsi:type="varchar" length="255" nullable="false" comment="Name"/>
+        <column name="team" xsi:type="varchar" length="255" nullable="false" comment="Team"/>
+        <column name="source_store_id" xsi:type="smallint" unsigned="true" comment="Source Store ID"/>
+        <column name="status" xsi:type="varchar" length="64" nullable="false" default="open" comment="Status"/>
+        <column name="price" xsi:type="decimal" comment="Price"/>
+        <column name="currency" xsi:type="varchar" length="3" comment="Currency"/>
+        <column name="created_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column name="updated_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <column name="workflow" xsi:type="varchar" length="64" nullable="false" comment="Workflow"/>
+        <column name="automatic_import" xsi:type="boolean" comment="Automatic Import"/>
+        <constraint xsi:type="foreign" referenceId="EASYTRANSLATE_PROJECT_SOURCE_STORE_ID_STORE_STORE_ID" table="easytranslate_project" column="source_store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="project_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="EASYTRANSLATE_PROJECT_EXTERNAL_ID">
+            <column name="external_id"/>
+        </constraint>
+    </table>
+    <table name="easytranslate_project_target_store" comment="EasyTranslate Project Target Store">
+        <column name="project_id" xsi:type="int" nullable="false" identity="false" unsigned="true" comment="Project ID"/>
+        <column name="target_store_id" xsi:type="smallint" nullable="false" unsigned="true" comment="Target Store ID"/>
+        <index referenceId="EASYTRANSLATE_PROJECT_TARGET_STORE_TARGET_STORE_ID" indexType="btree">
+            <column name="target_store_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="FK_94DF2F3C4CB1C209F03024E7F14455AF" table="easytranslate_project_target_store" column="project_id" referenceTable="easytranslate_project" referenceColumn="project_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="FK_4523DCCD8B162E8BF8F665A227B0CEB3" table="easytranslate_project_target_store" column="target_store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="project_id"/>
+            <column name="target_store_id"/>
+        </constraint>
+    </table>
+    <table name="easytranslate_project_product" comment="EasyTranslate Project Product">
+        <column name="project_id" xsi:type="int" nullable="false" identity="false" unsigned="true" comment="Project ID"/>
+        <column name="product_id" xsi:type="int" padding="10" nullable="false" identity="false" unsigned="true" comment="Product ID"/>
+        <index referenceId="EASYTRANSLATE_PROJECT_PRODUCT_PRODUCT_ID" indexType="btree">
+            <column name="product_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="FK_E43573336888DD9EA9915871D73F4593" table="easytranslate_project_product" column="project_id" referenceTable="easytranslate_project" referenceColumn="project_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="EASYTRANSLATE_PROJECT_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID" table="easytranslate_project_product" column="product_id" referenceTable="catalog_product_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="project_id"/>
+            <column name="product_id"/>
+        </constraint>
+    </table>
+    <table name="easytranslate_project_category" comment="EasyTranslate Project Category">
+        <column name="project_id" xsi:type="int" nullable="false" identity="false" unsigned="true" comment="Project ID"/>
+        <column name="category_id" xsi:type="int" padding="10" nullable="false" identity="false" unsigned="true" comment="Category ID"/>
+        <index referenceId="EASYTRANSLATE_PROJECT_CATEGORY_CATEGORY_ID" indexType="btree">
+            <column name="category_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="FK_967F43483C5687650DDF96C666DC69BE" table="easytranslate_project_category" column="project_id" referenceTable="easytranslate_project" referenceColumn="project_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="EASYTRANSLATE_PROJECT_CTGR_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID" table="easytranslate_project_category" column="category_id" referenceTable="catalog_category_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="project_id"/>
+            <column name="category_id"/>
+        </constraint>
+    </table>
+    <table name="easytranslate_project_cms_block" comment="EasyTranslate Project CMS Block">
+        <column name="project_id" xsi:type="int" nullable="false" identity="false" unsigned="true" comment="Project ID"/>
+        <column name="block_id" xsi:type="smallint" padding="6" nullable="false" comment="CMS Block ID"/>
+        <index referenceId="EASYTRANSLATE_PROJECT_CMS_BLOCK_BLOCK_ID" indexType="btree">
+            <column name="block_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="FK_856214A2F485E12DC38918CAC4C97D54" table="easytranslate_project_cms_block" column="project_id" referenceTable="easytranslate_project" referenceColumn="project_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="EASYTRANSLATE_PROJECT_CMS_BLOCK_BLOCK_ID_CMS_BLOCK_BLOCK_ID" table="easytranslate_project_cms_block" column="block_id" referenceTable="cms_block" referenceColumn="block_id" onDelete="CASCADE"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="project_id"/>
+            <column name="block_id"/>
+        </constraint>
+    </table>
+    <table name="easytranslate_project_cms_page" comment="EasyTranslate Project CMS Page">
+        <column name="project_id" xsi:type="int" nullable="false" identity="false" unsigned="true" comment="Project ID"/>
+        <column name="page_id" xsi:type="smallint" padding="6" nullable="false" comment="CMS Page ID"/>
+        <index referenceId="EASYTRANSLATE_PROJECT_CMS_PAGE_PAGE_ID" indexType="btree">
+            <column name="page_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="FK_AF76BCAD980D8CDC39554698AB859AF3" table="easytranslate_project_cms_page" column="project_id" referenceTable="easytranslate_project" referenceColumn="project_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="EASYTRANSLATE_PROJECT_CMS_PAGE_PAGE_ID_CMS_PAGE_PAGE_ID" table="easytranslate_project_cms_page" column="page_id" referenceTable="cms_page" referenceColumn="page_id" onDelete="CASCADE"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="project_id"/>
+            <column name="page_id"/>
+        </constraint>
+    </table>
+    <table name="easytranslate_task" comment="EasyTranslate Task">
+        <column name="task_id" xsi:type="int" nullable="false" identity="true" unsigned="true" comment="Task ID"/>
+        <column name="project_id" xsi:type="int" nullable="false" identity="false" unsigned="true" comment="Project ID"/>
+        <column name="external_id" xsi:type="varchar" length="255" comment="External ID"/>
+        <column name="store_id" xsi:type="smallint" nullable="false" unsigned="true" comment="Store ID"/>
+        <column name="content_link" xsi:type="varchar" length="255" comment="Content Link"/>
+        <column name="created_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column name="processed_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP" comment="Processed At"/>
+        <constraint xsi:type="foreign" referenceId="EASYTRANSLATE_TASK_PROJECT_ID_EASYTRANSLATE_PROJECT_PROJECT_ID" table="easytranslate_task" column="project_id" referenceTable="easytranslate_project" referenceColumn="project_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="EASYTRANSLATE_TASK_STORE_ID_STORE_STORE_ID" table="easytranslate_task" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="task_id"/>
+        </constraint>
+    </table>
+</schema>

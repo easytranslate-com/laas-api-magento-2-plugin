@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="EasyTranslate\Connector\Api\ProjectRepositoryInterface" type="EasyTranslate\Connector\Model\ProjectRepository"/>
+    <preference for="EasyTranslate\Connector\Api\Data\ProjectInterface" type="EasyTranslate\Connector\Model\Project"/>
+    <preference for="EasyTranslate\Connector\Api\Data\ProjectSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="easytranslate_project_listing_data_source" xsi:type="string">EasyTranslate\Connector\Model\ResourceModel\Project\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

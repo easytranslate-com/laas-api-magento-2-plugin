@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::system">
+                    <resource id="Magento_Backend::extensions">
+                        <resource id="EasyTranslate_Connector::Project" sortOrder="10" title="EasyTranslateProjects">
+                            <resource id="EasyTranslate_Connector::Project_read" sortOrder="10" title="See EasyTranslate Projects"/>
+                            <resource id="EasyTranslate_Connector::Project_save" sortOrder="20" title="Save EasyTranslate Projects"/>
+                            <resource id="EasyTranslate_Connector::Project_delete" sortOrder="30" title="Delete EasyTranslate Projects"/>
+                            <resource id="EasyTranslate_Connector::Project_send" sortOrder="40" title="Send Projects To EasyTranslate"/>
+                            <resource id="EasyTranslate_Connector::Project_import" sortOrder="50" title="Schedule Import"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

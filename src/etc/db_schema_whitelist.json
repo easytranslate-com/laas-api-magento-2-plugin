@@ -1,0 +1,110 @@
+{
+    "easytranslate_project": {
+        "column": {
+            "project_id": true,
+            "external_id": true,
+            "secret": true,
+            "name": true,
+            "team": true,
+            "source_store_id": true,
+            "status": true,
+            "price": true,
+            "currency": true,
+            "created_at": true,
+            "updated_at": true,
+            "workflow": true,
+            "automatic_import": true
+        },
+        "constraint": {
+            "EASYTRANSLATE_PROJECT_SOURCE_STORE_ID_STORE_STORE_ID": true,
+            "PRIMARY": true,
+            "EASYTRANSLATE_PROJECT_EXTERNAL_ID": true
+        }
+    },
+    "easytranslate_project_target_store": {
+        "column": {
+            "project_id": true,
+            "target_store_id": true
+        },
+        "index": {
+            "EASYTRANSLATE_PROJECT_TARGET_STORE_TARGET_STORE_ID": true
+        },
+        "constraint": {
+            "FK_94DF2F3C4CB1C209F03024E7F14455AF": true,
+            "FK_4523DCCD8B162E8BF8F665A227B0CEB3": true,
+            "PRIMARY": true
+        }
+    },
+    "easytranslate_project_product": {
+        "column": {
+            "project_id": true,
+            "product_id": true
+        },
+        "index": {
+            "EASYTRANSLATE_PROJECT_PRODUCT_PRODUCT_ID": true
+        },
+        "constraint": {
+            "FK_E43573336888DD9EA9915871D73F4593": true,
+            "EASYTRANSLATE_PROJECT_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true,
+            "PRIMARY": true
+        }
+    },
+    "easytranslate_project_category": {
+        "column": {
+            "project_id": true,
+            "category_id": true
+        },
+        "index": {
+            "EASYTRANSLATE_PROJECT_CATEGORY_CATEGORY_ID": true
+        },
+        "constraint": {
+            "FK_967F43483C5687650DDF96C666DC69BE": true,
+            "EASYTRANSLATE_PROJECT_CTGR_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID": true,
+            "PRIMARY": true
+        }
+    },
+    "easytranslate_project_cms_block": {
+        "column": {
+            "project_id": true,
+            "block_id": true
+        },
+        "index": {
+            "EASYTRANSLATE_PROJECT_CMS_BLOCK_BLOCK_ID": true
+        },
+        "constraint": {
+            "FK_856214A2F485E12DC38918CAC4C97D54": true,
+            "EASYTRANSLATE_PROJECT_CMS_BLOCK_BLOCK_ID_CMS_BLOCK_BLOCK_ID": true,
+            "PRIMARY": true
+        }
+    },
+    "easytranslate_project_cms_page": {
+        "column": {
+            "project_id": true,
+            "page_id": true
+        },
+        "index": {
+            "EASYTRANSLATE_PROJECT_CMS_PAGE_PAGE_ID": true
+        },
+        "constraint": {
+            "FK_AF76BCAD980D8CDC39554698AB859AF3": true,
+            "EASYTRANSLATE_PROJECT_CMS_PAGE_PAGE_ID_CMS_PAGE_PAGE_ID": true,
+            "PRIMARY": true
+        }
+    },
+    "easytranslate_task": {
+        "column": {
+            "task_id": true,
+            "project_id": true,
+            "external_id": true,
+            "store_id": true,
+            "content_link": true,
+            "created_at": true,
+            "processed_at": true
+        },
+        "constraint": {
+            "EASYTRANSLATE_TASK_PROJECT_ID_EASYTRANSLATE_PROJECT_PROJECT_ID": true,
+            "EASYTRANSLATE_TASK_STORE_ID_STORE_STORE_ID": true,
+            "PRIMARY": true
+        }
+    }
+}

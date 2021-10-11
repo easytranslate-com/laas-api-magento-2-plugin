@@ -1,0 +1,95 @@
+"Are you sure you want to accept the price for this project?","Are you sure you want to accept the price for this project?"
+"Accept Price","Accept Price"
+Back,Back
+"Are you sure you want to decline the price for this project?","Are you sure you want to decline the price for this project?"
+"Decline Price","Decline Price"
+"Are you sure you want to delete this project?","Are you sure you want to delete this project?"
+"Delete Project","Delete Project"
+"Schedule for import","Schedule for import"
+"Save and Continue Edit","Save and Continue Edit"
+"Save Project","Save Project"
+"Send to EasyTranslate","Send to EasyTranslate"
+ID,ID
+Name,Name
+"URL Key","URL Key"
+"Already Translated In","Already Translated In"
+Title,Title
+Identifier,Identifier
+Status,Status
+Created,Created
+Modified,Modified
+Layout,Layout
+SKU,SKU
+Price,Price
+"The price of the project has successfully been accepted.","The price of the project has successfully been accepted."
+"New Project","New Project"
+"The price of the project has successfully been declined.","The price of the project has successfully been declined."
+"We can't find a project to delete.","We can't find a project to delete."
+"You deleted the project.","You deleted the project."
+"This project no longer exists.","This project no longer exists."
+"Edit Project","Edit Project"
+Projects,Projects
+"Edit Project ""%1"" (#%2)","Edit Project ""%1"" (#%2)"
+EasyTranslate,EasyTranslate
+Project,Project
+"An error occurred while deleting record(s).","An error occurred while deleting record(s)."
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"One or more projects could not be deleted, because they have already been sent to EasyTranslate.","One or more projects could not be deleted, because they have already been sent to EasyTranslate."
+"You have saved the project","You have saved the project"
+"Something went wrong while saving the project.","Something went wrong while saving the project."
+"The import has been scheduled","The import has been scheduled"
+"The project could not be sent to EasyTranslate.","The project could not be sent to EasyTranslate."
+"The project has successfully been sent to EasyTranslate.","The project has successfully been sent to EasyTranslate."
+"The source store view cannot also be a target store view.","The source store view cannot also be a target store view."
+"Some or all languages are not supported yet :-( Please contact the EasyTranslate support.","Some or all languages are not supported yet :-( Please contact the EasyTranslate support."
+Content,Content
+"Meta Description","Meta Description"
+"Content Heading","Content Heading"
+Sandbox,Sandbox
+Production,Production
+"Secret does not match.","Secret does not match."
+Open,Open
+"Sent To EasyTranslate","Sent To EasyTranslate"
+"Price Approval Needed","Price Approval Needed"
+"Price Accepted","Price Accepted"
+"Price Declined","Price Declined"
+"Partially Finished","Partially Finished"
+Finished,Finished
+Translations,Translations
+"Translation and review","Translation and review"
+"Translate yourself","Translate yourself"
+"The collection has more than two entities per identifier.","The collection has more than two entities per identifier."
+"Unsupported locale code.","Unsupported locale code."
+"Could not save the project: %1","Could not save the project: %1"
+"Project with id ""%1"" does not exist.","Project with id ""%1"" does not exist."
+"Could not delete the Project: %1","Could not delete the Project: %1"
+tbd,tbd
+Edit,Edit
+"EasyTranslate Projects","EasyTranslate Projects"
+"EasyTranslate Connector","EasyTranslate Connector"
+API,API
+Environment,Environment
+"Client ID","Client ID"
+"You can find it in your EasyTranslate account under Settings > API","You can find it in your EasyTranslate account under Settings > API"
+"Client Secret","Client Secret"
+"User Name","User Name"
+"Enter the same credentials you use for the EasyTranslate platform","Enter the same credentials you use for the EasyTranslate platform"
+Password,Password
+Products,Products
+Attributes,Attributes
+"Select the product attributes, which should be translated","Select the product attributes, which should be translated"
+Categories,Categories
+"Select the category attributes, which should be translated","Select the category attributes, which should be translated"
+"CMS Blocks","CMS Blocks"
+"Select the CMS block attributes, which should be translated","Select the CMS block attributes, which should be translated"
+"CMS Pages","CMS Pages"
+"Select the CMS page attributes, which should be translated","Select the CMS page attributes, which should be translated"
+Account,Account
+"If no account is displayed, please check your API and EasyTranslate settings.","If no account is displayed, please check your API and EasyTranslate settings."
+"Source Store View","Source Store View"
+"Target Store Views","Target Store Views"
+Workflow,Workflow
+"Automatic Import","Automatic Import"
+"Add New Project","Add New Project"
+"Delete selected projects?","Delete selected projects?"
+"Delete projects","Delete projects"

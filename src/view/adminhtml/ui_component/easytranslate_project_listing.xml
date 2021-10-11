@@ -1,0 +1,153 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">easytranslate_project_listing.easytranslate_project_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="*/*/create"/>
+                <class>primary</class>
+                <label translate="true">Add New Project</label>
+            </button>
+        </buttons>
+        <spinner>projects_columns</spinner>
+        <deps>
+            <dep>easytranslate_project_listing.easytranslate_project_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="easytranslate_project_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">project_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>EasyTranslate_Connector::projects</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="easytranslate_project_listing_data_source">
+            <settings>
+                <requestFieldName>project_id</requestFieldName>
+                <primaryFieldName>project_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Delete selected projects?</message>
+                        <title translate="true">Delete projects</title>
+                    </confirm>
+                    <url path="easytranslate/project/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete projects</label>
+                </settings>
+            </action>
+        </massaction>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="projects_columns">
+        <settings>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">easytranslate_project_listing.easytranslate_project_listing.projects_columns.actions</item>
+                    <item name="target" xsi:type="string">applyAction</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">edit</item>
+                        <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+        <selectionsColumn name="ids" sortOrder="0">
+            <settings>
+                <indexField>project_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="project_id" sortOrder="10">
+            <settings>
+                <label translate="true">ID</label>
+                <filter>textRange</filter>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="name" sortOrder="20">
+            <settings>
+                <label translate="true">Name</label>
+                <filter>text</filter>
+            </settings>
+        </column>
+        <column name="source_store_id" sortOrder="30" class="EasyTranslate\Connector\Model\Ui\Component\Listing\Column\SourceStore">
+            <settings>
+                <label translate="true">Source Store View</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Magento\Store\Ui\Component\Listing\Column\Store\Options"/>
+            </settings>
+        </column>
+        <column name="target_store_ids" sortOrder="40" class="EasyTranslate\Connector\Model\Ui\Component\Listing\Column\TargetStores">
+            <settings>
+                <label translate="true">Target Store Views</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Magento\Store\Ui\Component\Listing\Column\Store\Options"/>
+            </settings>
+        </column>
+        <column name="workflow" component="Magento_Ui/js/grid/columns/select" sortOrder="50">
+            <settings>
+                <label translate="true">Workflow</label>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="EasyTranslate\Connector\Model\Config\Source\Workflow"/>
+            </settings>
+        </column>
+        <column name="status" component="Magento_Ui/js/grid/columns/select" sortOrder="60">
+            <settings>
+                <label translate="true">Status</label>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="EasyTranslate\Connector\Model\Config\Source\Status"/>
+            </settings>
+        </column>
+        <column name="price" class="EasyTranslate\Connector\Ui\Component\Listing\Column\Price" sortOrder="70">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Price</label>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" sortOrder="80" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Created</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="updated_at" class="Magento\Ui\Component\Listing\Columns\Date" sortOrder="90" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Modified</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="EasyTranslate\Connector\Ui\Component\Listing\Column\ProjectActions" sortOrder="100">
+            <settings>
+                <indexField>project_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

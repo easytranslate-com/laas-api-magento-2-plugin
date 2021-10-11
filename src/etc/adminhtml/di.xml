@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="EasyTranslate\Connector\Model\Ui\Component\Listing\Column\SourceStore" type="Magento\Store\Ui\Component\Listing\Column\Store">
+        <arguments>
+            <argument name="storeKey" xsi:type="string">source_store_id</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="EasyTranslate\Connector\Model\Ui\Component\Listing\Column\TargetStores" type="Magento\Store\Ui\Component\Listing\Column\Store">
+        <arguments>
+            <argument name="storeKey" xsi:type="string">target_store_ids</argument>
+        </arguments>
+    </virtualType>
+    <type name="EasyTranslate\Connector\Model\ResourceModel\Project\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">easytranslate_project</argument>
+            <argument name="eventPrefix" xsi:type="string">easytranslate_project_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">project_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">EasyTranslate\Connector\Model\ResourceModel\Project</argument>
+        </arguments>
+    </type>
+</config>
