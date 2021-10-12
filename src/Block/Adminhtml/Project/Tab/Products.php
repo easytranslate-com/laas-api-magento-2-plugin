@@ -193,6 +193,9 @@ class Products extends AbstractEntity
         return $this->getUrl('*/project_products/grid', ['_current' => true]);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     private function filterTranslatedCondition(CollectionData $collection, Column $column): void
     {
         $value = $column->getFilter()->getValue();
