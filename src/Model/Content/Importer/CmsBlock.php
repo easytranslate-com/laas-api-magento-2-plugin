@@ -50,12 +50,12 @@ class CmsBlock extends AbstractCmsImporter
     {
         $block    = $this->loadBaseBlock($id, $sourceStoreId, $targetStoreId);
         $storeIds = (array)$block->getData('stores');
-        if (in_array(Store::DEFAULT_STORE_ID, $storeIds, false) && count($storeIds) >= 1) {
-            $this->handleExistingGlobalBlock($block, $attributes, $targetStoreId);
-        } elseif (in_array($targetStoreId, $storeIds, false) && count($storeIds) === 1) {
+        if (in_array($targetStoreId, $storeIds, false) && count($storeIds) === 1) {
             $this->handleExistingUniqueBlock($block, $attributes);
         } elseif (in_array($targetStoreId, $storeIds, false) && count($storeIds) > 1) {
             $this->handleExistingBlockWithMultipleStores($block, $attributes, $targetStoreId);
+        } elseif (in_array(Store::DEFAULT_STORE_ID, $storeIds, false) && count($storeIds) >= 1) {
+            $this->handleExistingGlobalBlock($block, $attributes, $targetStoreId);
         } else {
             // this should rarely happen - only if the block from the source store has been deleted in the meantime
             $block->setIdentifier($id);
