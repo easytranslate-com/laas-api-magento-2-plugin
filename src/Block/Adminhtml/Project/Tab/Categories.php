@@ -78,6 +78,7 @@ class Categories extends AbstractEntity
         /** @var Collection $categoryCollection */
         $categoryCollection = $this->collectionFactory->create();
         $categoryCollection->addAttributeToSelect(CategoryInterface::KEY_NAME)
+            ->addAttributeToSelect('url_key')
             ->addAttributeToFilter(CategoryInterface::KEY_LEVEL, ['gt' => 1]);
         if (!$this->projectGetter->getProject() || $this->projectGetter->getProject()->canEditDetails()) {
             // join stores in which products have already been added to a project / translated
@@ -142,6 +143,7 @@ class Categories extends AbstractEntity
                     'type'                      => 'store',
                     'store_view'                => true,
                     'sortable'                  => false,
+                    'store_all'                 => true,
                     'filter_condition_callback' => [$this, 'filterTranslatedCondition'],
                 ]
             );

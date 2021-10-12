@@ -69,10 +69,10 @@ class CmsPage extends AbstractCmsImporter
     {
         $page     = $this->loadBasePage($id, $sourceStoreId, $targetStoreId);
         $storeIds = (array)$page->getData('store_id');
-        if (in_array(Store::DEFAULT_STORE_ID, $storeIds, false) && count($storeIds) >= 1) {
-            $this->handleExistingGlobalPage($page, $attributes, $targetStoreId);
-        } elseif (in_array($targetStoreId, $storeIds, false) && count($storeIds) === 1) {
+        if (in_array($targetStoreId, $storeIds, false) && count($storeIds) === 1) {
             $this->handleExistingUniquePage($page, $attributes);
+        } elseif (in_array(Store::DEFAULT_STORE_ID, $storeIds, false) && count($storeIds) >= 1) {
+            $this->handleExistingGlobalPage($page, $attributes, $targetStoreId);
         } elseif (in_array($targetStoreId, $storeIds, false) && count($storeIds) > 1) {
             $this->handleExistingPageWithMultipleStores($page, $attributes, $targetStoreId);
         } else {

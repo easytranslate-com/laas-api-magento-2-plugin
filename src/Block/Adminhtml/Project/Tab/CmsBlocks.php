@@ -182,6 +182,7 @@ class CmsBlocks extends AbstractEntity
                     'type'                      => 'store',
                     'store_view'                => true,
                     'sortable'                  => false,
+                    'store_all'                 => true,
                     'filter_condition_callback' => [$this, 'filterTranslatedCondition'],
                 ]
             );
