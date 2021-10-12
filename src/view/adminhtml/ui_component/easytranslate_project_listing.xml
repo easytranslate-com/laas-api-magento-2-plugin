@@ -25,7 +25,7 @@
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <aclResource>EasyTranslate_Connector::projects</aclResource>
+        <aclResource>EasyTranslate_Connector::Project_read</aclResource>
         <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="easytranslate_project_listing_data_source">
             <settings>
                 <requestFieldName>project_id</requestFieldName>

@@ -9,7 +9,7 @@
              module="EasyTranslate_Connector"
              sortOrder="50"
              action="easytranslate/project"
-             resource="EasyTranslate_Connector::config"
+             resource="EasyTranslate_Connector::Project_read"
         />
     </menu>
 </config>
