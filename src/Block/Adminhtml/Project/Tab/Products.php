@@ -16,9 +16,13 @@ use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Directory\Model\Currency;
+use Magento\Framework\Data\Collection as CollectionData;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\ScopeInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Products extends AbstractEntity
 {
     /**
@@ -156,12 +160,13 @@ class Products extends AbstractEntity
             $this->addColumn(
                 'translated_stores',
                 [
-                    'header'     => __('Already Translated In'),
-                    'index'      => 'translated_stores',
-                    'type'       => 'store',
-                    'store_all'  => true,
-                    'store_view' => true,
-                    'sortable'   => false,
+                    'header'                    => __('Already Translated In'),
+                    'index'                     => 'translated_stores',
+                    'type'                      => 'store',
+                    'store_all'                 => true,
+                    'store_view'                => true,
+                    'sortable'                  => false,
+                    'filter_condition_callback' => [$this, 'filterTranslatedCondition'],
                 ]
             );
         }
@@ -186,5 +191,16 @@ class Products extends AbstractEntity
     public function getGridUrl(): string
     {
         return $this->getUrl('*/project_products/grid', ['_current' => true]);
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     */
+    private function filterTranslatedCondition(CollectionData $collection, Column $column): void
+    {
+        $value = $column->getFilter()->getValue();
+        if ($value) {
+            $collection->getSelect()->where('etpts.target_store_id=?', $value);
+        }
     }
 }
