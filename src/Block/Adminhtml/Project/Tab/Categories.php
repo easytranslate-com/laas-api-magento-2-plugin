@@ -171,7 +171,7 @@ class Categories extends AbstractEntity
         return $this->getUrl('*/project_categories/grid', ['_current' => true]);
     }
 
-    protected function filterTranslatedCondition(CollectionData $collection, Column $column): void
+    private function filterTranslatedCondition(CollectionData $collection, Column $column): void
     {
         $value = $column->getFilter()->getValue();
         if ($value) {

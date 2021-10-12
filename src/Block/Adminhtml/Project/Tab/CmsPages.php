@@ -228,7 +228,7 @@ class CmsPages extends AbstractEntity
         return $this->getUrl('*/project_cmsPages/grid', ['_current' => true]);
     }
 
-    protected function filterTranslatedCondition(CollectionData $collection, Column $column): void
+    private function filterTranslatedCondition(CollectionData $collection, Column $column): void
     {
         $value = $column->getFilter()->getValue();
         if ($value) {
