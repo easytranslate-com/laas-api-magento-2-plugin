@@ -20,6 +20,9 @@ use Magento\Framework\Data\Collection as CollectionData;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\ScopeInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Products extends AbstractEntity
 {
     /**

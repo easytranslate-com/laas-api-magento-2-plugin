@@ -19,6 +19,9 @@ use Magento\Framework\Data\Collection as CollectionData;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Model\PageLayout\Config\BuilderInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CmsPages extends AbstractEntity
 {
     /**
