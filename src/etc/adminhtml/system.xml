@@ -5,7 +5,7 @@
         <section id="easytranslate" translate="label" type="text" sortOrder="102" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>EasyTranslate Connector</label>
             <tab>service</tab>
-            <resource>EasyTranslate_Connector::config</resource>
+            <resource>EasyTranslate_Connector::Configuration</resource>
             <group id="api" translate="label" type="text" sortOrder="10" showInDefault="1">
                 <label>API</label>
                 <field id="environment" translate="label" type="select" sortOrder="20" showInDefault="1">
