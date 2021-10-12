@@ -195,6 +195,7 @@ class CmsPages extends AbstractEntity
                     'index'      => 'translated_stores',
                     'type'       => 'store',
                     'store_view' => true,
+                    'store_all'  => true,
                     'sortable'   => false
                 ]
             );

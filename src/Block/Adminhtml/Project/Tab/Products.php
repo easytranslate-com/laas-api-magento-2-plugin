@@ -159,6 +159,7 @@ class Products extends AbstractEntity
                     'header'     => __('Already Translated In'),
                     'index'      => 'translated_stores',
                     'type'       => 'store',
+                    'store_all'  => true,
                     'store_view' => true,
                     'sortable'   => false,
                 ]
