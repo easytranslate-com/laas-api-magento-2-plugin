@@ -194,7 +194,7 @@ class Products extends AbstractEntity
     }
 
     /**
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
     private function filterTranslatedCondition(CollectionData $collection, Column $column): void
     {
