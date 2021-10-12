@@ -15,6 +15,7 @@ use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Cms\Model\Block;
 use Magento\Cms\Model\ResourceModel\Block\Collection;
 use Magento\Cms\Model\ResourceModel\Block\CollectionFactory as CmsBlockCollectionFactory;
+use Magento\Framework\Data\Collection as CollectionData;
 use Magento\Framework\Exception\LocalizedException;
 
 class CmsBlocks extends AbstractEntity
@@ -175,12 +176,13 @@ class CmsBlocks extends AbstractEntity
             $this->addColumn(
                 'translated_stores',
                 [
-                    'header'     => __('Already Translated In'),
-                    'width'      => '250px',
-                    'index'      => 'translated_stores',
-                    'type'       => 'store',
-                    'store_view' => true,
-                    'sortable'   => false
+                    'header'                    => __('Already Translated In'),
+                    'width'                     => '250px',
+                    'index'                     => 'translated_stores',
+                    'type'                      => 'store',
+                    'store_view'                => true,
+                    'sortable'                  => false,
+                    'filter_condition_callback' => [$this, 'filterTranslatedCondition'],
                 ]
             );
         }
@@ -205,5 +207,13 @@ class CmsBlocks extends AbstractEntity
     public function getGridUrl(): string
     {
         return $this->getUrl('*/project_cmsBlocks/grid', ['_current' => true]);
+    }
+
+    protected function filterTranslatedCondition(CollectionData $collection, Column $column): void
+    {
+        $value = $column->getFilter()->getValue();
+        if ($value) {
+            $collection->getSelect()->where('etpts.target_store_id=?', $value);
+        }
     }
 }

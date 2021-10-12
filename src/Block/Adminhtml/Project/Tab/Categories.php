@@ -14,6 +14,7 @@ use Magento\Backend\Helper\Data;
 use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Catalog\Model\ResourceModel\Category\Collection;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
+use Magento\Framework\Data\Collection as CollectionData;
 use Magento\Framework\Exception\LocalizedException;
 
 class Categories extends AbstractEntity
@@ -135,12 +136,13 @@ class Categories extends AbstractEntity
             $this->addColumn(
                 'translated_stores',
                 [
-                    'header'     => __('Already Translated In'),
-                    'width'      => '250px',
-                    'index'      => 'translated_stores',
-                    'type'       => 'store',
-                    'store_view' => true,
-                    'sortable'   => false,
+                    'header'                    => __('Already Translated In'),
+                    'width'                     => '250px',
+                    'index'                     => 'translated_stores',
+                    'type'                      => 'store',
+                    'store_view'                => true,
+                    'sortable'                  => false,
+                    'filter_condition_callback' => [$this, 'filterTranslatedCondition'],
                 ]
             );
         }
@@ -165,5 +167,13 @@ class Categories extends AbstractEntity
     public function getGridUrl(): string
     {
         return $this->getUrl('*/project_categories/grid', ['_current' => true]);
+    }
+
+    protected function filterTranslatedCondition(CollectionData $collection, Column $column): void
+    {
+        $value = $column->getFilter()->getValue();
+        if ($value) {
+            $collection->getSelect()->where('etpts.target_store_id=?', $value);
+        }
     }
 }

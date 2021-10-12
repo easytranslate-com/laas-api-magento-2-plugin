@@ -15,6 +15,7 @@ use Magento\Cms\Api\Data\PageInterface;
 use Magento\Cms\Model\Page;
 use Magento\Cms\Model\ResourceModel\Page\Collection;
 use Magento\Cms\Model\ResourceModel\Page\CollectionFactory as CmsPageCollectionFactory;
+use Magento\Framework\Data\Collection as CollectionData;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Model\PageLayout\Config\BuilderInterface;
 
@@ -190,12 +191,13 @@ class CmsPages extends AbstractEntity
             $this->addColumn(
                 'translated_stores',
                 [
-                    'header'     => __('Already Translated In'),
-                    'width'      => '250px',
-                    'index'      => 'translated_stores',
-                    'type'       => 'store',
-                    'store_view' => true,
-                    'sortable'   => false
+                    'header'                    => __('Already Translated In'),
+                    'width'                     => '250px',
+                    'index'                     => 'translated_stores',
+                    'type'                      => 'store',
+                    'store_view'                => true,
+                    'sortable'                  => false,
+                    'filter_condition_callback' => [$this, 'filterTranslatedCondition'],
                 ]
             );
         }
@@ -220,5 +222,13 @@ class CmsPages extends AbstractEntity
     public function getGridUrl(): string
     {
         return $this->getUrl('*/project_cmsPages/grid', ['_current' => true]);
+    }
+
+    protected function filterTranslatedCondition(CollectionData $collection, Column $column): void
+    {
+        $value = $column->getFilter()->getValue();
+        if ($value) {
+            $collection->getSelect()->where('etpts.target_store_id=?', $value);
+        }
     }
 }
