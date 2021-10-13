@@ -213,7 +213,7 @@ class CmsBlocks extends AbstractEntity
     /**
      * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
-    private function filterTranslatedCondition(CollectionData $collection, Column $column): void
+    protected function filterTranslatedCondition(CollectionData $collection, Column $column): void
     {
         $value = $column->getFilter()->getValue();
         if ($value) {
