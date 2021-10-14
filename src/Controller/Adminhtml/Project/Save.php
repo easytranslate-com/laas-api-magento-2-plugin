@@ -19,6 +19,9 @@ use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Json\DecoderInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Save extends Action
 {
     public const ADMIN_RESOURCE = 'EasyTranslate_Connector::Project_save_send';
@@ -120,7 +123,9 @@ class Save extends Action
             if ($shouldSendProject) {
                 try {
                     $this->sendProject($project);
-                    $this->messageManager->addSuccessMessage(__('The project has successfully been sent to EasyTranslate.'));
+                    $this->messageManager->addSuccessMessage(
+                        __('The project has successfully been sent to EasyTranslate.')
+                    );
                 } catch (Exception $e) {
                     $message = (string)__('The project could not be sent to EasyTranslate.');
                     $this->messageManager->addExceptionMessage($e, $message);
