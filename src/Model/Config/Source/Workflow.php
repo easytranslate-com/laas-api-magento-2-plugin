@@ -11,7 +11,7 @@ class Workflow implements OptionSourceInterface
     private function getOptions(): array
     {
         return [
-            'translation'              => __('Translations'),
+            'translation'              => __('Translation'),
             'translation+review'       => __('Translation and review'),
             'self+machine_translation' => __('Translate yourself'),
         ];
