@@ -37,9 +37,9 @@ Project,Project
 "One or more projects could not be deleted, because they have already been sent to EasyTranslate.","One or more projects could not be deleted, because they have already been sent to EasyTranslate."
 "You have saved the project","You have saved the project"
 "Something went wrong while saving the project.","Something went wrong while saving the project."
-"The import has been scheduled","The import has been scheduled"
-"The project could not be sent to EasyTranslate.","The project could not be sent to EasyTranslate."
 "The project has successfully been sent to EasyTranslate.","The project has successfully been sent to EasyTranslate."
+"The project could not be sent to EasyTranslate.","The project could not be sent to EasyTranslate."
+"The import has been scheduled","The import has been scheduled"
 "The source store view cannot also be a target store view.","The source store view cannot also be a target store view."
 "Some or all languages are not supported yet :-( Please contact the EasyTranslate support.","Some or all languages are not supported yet :-( Please contact the EasyTranslate support."
 Content,Content
@@ -65,6 +65,10 @@ Translation,Translation
 "Could not delete the Project: %1","Could not delete the Project: %1"
 tbd,tbd
 Edit,Edit
+"See Projects","See Projects"
+"Save / Send Projects","Save / Send Projects"
+"Delete Projects","Delete Projects"
+"Schedule Import","Schedule Import"
 "EasyTranslate Projects","EasyTranslate Projects"
 "EasyTranslate Connector","EasyTranslate Connector"
 API,API
