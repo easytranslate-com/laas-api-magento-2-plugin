@@ -6,18 +6,17 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource id="EasyTranslate_Connector::Configuration" title="EasyTranslate"/>
+                            <resource id="EasyTranslate_Connector::Configuration" title="EasyTranslate" translate="title"/>
                         </resource>
                     </resource>
                 </resource>
                 <resource id="Magento_Backend::system">
                     <resource id="Magento_Integration::extensions">
-                        <resource id="EasyTranslate_Connector::Project" sortOrder="10" title="EasyTranslate">
-                            <resource id="EasyTranslate_Connector::Project_read" sortOrder="10" title="See Projects"/>
-                            <resource id="EasyTranslate_Connector::Project_save" sortOrder="20" title="Save Projects"/>
-                            <resource id="EasyTranslate_Connector::Project_delete" sortOrder="30" title="Delete Projects"/>
-                            <resource id="EasyTranslate_Connector::Project_send" sortOrder="40" title="Send Projects"/>
-                            <resource id="EasyTranslate_Connector::Project_import" sortOrder="50" title="Schedule Import"/>
+                        <resource id="EasyTranslate_Connector::Project" sortOrder="10" title="EasyTranslate" translate="title">
+                            <resource id="EasyTranslate_Connector::Project_read" sortOrder="10" title="See Projects" translate="title"/>
+                            <resource id="EasyTranslate_Connector::Project_save_send" sortOrder="20" title="Save / Send Projects" translate="title"/>
+                            <resource id="EasyTranslate_Connector::Project_delete" sortOrder="30" title="Delete Projects" translate="title"/>
+                            <resource id="EasyTranslate_Connector::Project_import" sortOrder="50" title="Schedule Import" translate="title"/>
                         </resource>
                     </resource>
                 </resource>

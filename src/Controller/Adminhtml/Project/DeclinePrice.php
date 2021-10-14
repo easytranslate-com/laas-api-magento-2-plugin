@@ -16,7 +16,7 @@ use Magento\Backend\App\Action\Context;
 
 class DeclinePrice extends Action
 {
-    public const ADMIN_RESOURCE = 'EasyTranslate_Connector::Project_save';
+    public const ADMIN_RESOURCE = 'EasyTranslate_Connector::Project_save_send';
 
     /**
      * @var Config

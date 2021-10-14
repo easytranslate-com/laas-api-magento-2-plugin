@@ -14,7 +14,7 @@ use Magento\Framework\Exception\LocalizedException;
 
 class Edit extends Action
 {
-    public const ADMIN_RESOURCE = 'EasyTranslate_Connector::Project_save';
+    public const ADMIN_RESOURCE = 'EasyTranslate_Connector::Project_save_send';
     public const MENU_ID = 'EasyTranslate_Connector::projects';
 
     /**
