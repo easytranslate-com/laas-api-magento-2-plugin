@@ -1,4 +1,4 @@
-# EasyTranslate Magento 2 Connector
+# EasyTranslate Connector For Magento 2
 
 This Magento 2 extension integrates EasyTranslate into Magento 2.
 
