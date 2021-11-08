@@ -62,6 +62,11 @@
             <column name="category_id"/>
         </constraint>
     </table>
+    <table name="cms_block">
+        <index referenceId="CMS_BLOCK_BLOCK_ID" indexType="btree">
+            <column name="block_id"/>
+        </index>
+    </table>
     <table name="easytranslate_project_cms_block" comment="EasyTranslate Project CMS Block">
         <column name="project_id" xsi:type="int" nullable="false" identity="false" unsigned="true" comment="Project ID"/>
         <column name="block_id" xsi:type="smallint" padding="6" nullable="false" comment="CMS Block ID"/>

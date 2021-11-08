@@ -17,7 +17,7 @@ class Cms
      *
      * @throws LocalizedException
      */
-    public function filterEntities(AbstractDb $entities, array $identifiers)
+    public function filterEntities(AbstractDb $entities, array $identifiers): AbstractDb
     {
         if (!$entities instanceof CmsResourceCollection && !$entities instanceof Collection) {
             return $entities;

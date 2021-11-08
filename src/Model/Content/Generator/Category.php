@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace EasyTranslate\Connector\Model\Content\Generator;
 
 use EasyTranslate\Connector\Model\Config;
-use Magento\Catalog\Model\ResourceModel\Category\Collection as CategoryCollection;
+use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
+use Magento\Framework\Data\Collection\AbstractDb;
 
 class Category extends AbstractEavGenerator
 {
@@ -17,14 +18,17 @@ class Category extends AbstractEavGenerator
      */
     private $categoryCollectionFactory;
 
-    public function __construct(Config $config, CategoryCollectionFactory $categoryCollectionFactory)
-    {
-        parent::__construct($config);
-        $this->attributeCodes            = $this->config->getCategoriesAttributes();
+    public function __construct(
+        Config $config,
+        VersionManagerFactory $versionManagerFactory,
+        CategoryCollectionFactory $categoryCollectionFactory
+    ) {
+        parent::__construct($config, $versionManagerFactory);
         $this->categoryCollectionFactory = $categoryCollectionFactory;
+        $this->attributeCodes            = $this->config->getCategoriesAttributes();
     }
 
-    protected function getCollection(array $modelIds, int $storeId): CategoryCollection
+    protected function getCollection(array $modelIds, int $storeId): AbstractDb
     {
         return $this->categoryCollectionFactory->create()
             ->setStoreId($storeId)

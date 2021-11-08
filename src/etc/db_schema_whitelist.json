@@ -106,5 +106,10 @@
             "EASYTRANSLATE_TASK_STORE_ID_STORE_STORE_ID": true,
             "PRIMARY": true
         }
+    },
+    "cms_block": {
+        "index": {
+            "CMS_BLOCK_BLOCK_ID": true
+        }
     }
 }
