@@ -14,7 +14,6 @@ use EasyTranslate\Connector\Model\Content\Importer\CmsBlock as CmsBlockImporter;
 use EasyTranslate\Connector\Model\Content\Importer\CmsPage as CmsPageImporter;
 use EasyTranslate\Connector\Model\Content\Importer\Product as ProductImporter;
 use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
-use Magento\Staging\Model\VersionManager;
 
 class Importer
 {
@@ -86,7 +85,7 @@ class Importer
             return;
         }
         // make sure that we use the baseline version, not any scheduled content
-        $versionManager->setCurrentVersionId(VersionManager::MIN_VERSION);
+        $versionManager->setCurrentVersionId(VersionManagerFactory::MIN_VERSION);
     }
 
     protected function getImporterModel(string $modelClass): ?AbstractImporter

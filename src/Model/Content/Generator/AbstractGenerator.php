@@ -8,7 +8,6 @@ use EasyTranslate\Connector\Model\Config;
 use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\AbstractModel;
-use Magento\Staging\Model\VersionManager;
 
 abstract class AbstractGenerator
 {
@@ -66,7 +65,7 @@ abstract class AbstractGenerator
             return;
         }
         // make sure that we retrieve the baseline version, not any scheduled content
-        $versionManager->setCurrentVersionId(VersionManager::MIN_VERSION);
+        $versionManager->setCurrentVersionId(VersionManagerFactory::MIN_VERSION);
     }
 
     protected function getSingleContent($model): array

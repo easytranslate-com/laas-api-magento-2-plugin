@@ -9,6 +9,8 @@ use Magento\Framework\ObjectManagerInterface;
 
 class VersionManagerFactory
 {
+    public const MIN_VERSION = 1;
+
     /**
      * @var ObjectManagerInterface
      */
@@ -22,7 +24,7 @@ class VersionManagerFactory
     public function __construct(ObjectManagerInterface $objectManager, ModuleManager $moduleManager)
     {
         $this->_objectManager = $objectManager;
-        $this->moduleManager = $moduleManager;
+        $this->moduleManager  = $moduleManager;
     }
 
     public function create(): ?object
@@ -31,6 +33,7 @@ class VersionManagerFactory
             return null;
         }
         // keep it as a string to not depend on Magento_Staging!
+        // phpcs:ignore Magento2.PHP.LiteralNamespaces.LiteralClassUsage
         return $this->_objectManager->get('Magento\Staging\Model\VersionManager');
     }
 }
