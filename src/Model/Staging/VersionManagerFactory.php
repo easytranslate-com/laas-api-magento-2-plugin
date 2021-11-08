@@ -14,7 +14,7 @@ class VersionManagerFactory
     /**
      * @var ObjectManagerInterface
      */
-    protected $_objectManager;
+    private $_objectManager;
 
     /**
      * @var ModuleManager
