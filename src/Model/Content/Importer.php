@@ -13,9 +13,15 @@ use EasyTranslate\Connector\Model\Content\Importer\Category as CategoryImporter;
 use EasyTranslate\Connector\Model\Content\Importer\CmsBlock as CmsBlockImporter;
 use EasyTranslate\Connector\Model\Content\Importer\CmsPage as CmsPageImporter;
 use EasyTranslate\Connector\Model\Content\Importer\Product as ProductImporter;
+use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
 
 class Importer
 {
+    /**
+     * @var VersionManagerFactory
+     */
+    private $versionManagerFactory;
+
     /**
      * @var ProductImporter
      */
@@ -37,15 +43,17 @@ class Importer
     private $cmsPageImporter;
 
     public function __construct(
+        VersionManagerFactory $versionManagerFactory,
         ProductImporter $productImporter,
         CategoryImporter $categoryImporter,
         CmsBlockImporter $cmsBlockImporter,
         CmsPageImporter $cmsPageImporter
     ) {
-        $this->productImporter  = $productImporter;
-        $this->categoryImporter = $categoryImporter;
-        $this->cmsBlockImporter = $cmsBlockImporter;
-        $this->cmsPageImporter  = $cmsPageImporter;
+        $this->versionManagerFactory = $versionManagerFactory;
+        $this->productImporter       = $productImporter;
+        $this->categoryImporter      = $categoryImporter;
+        $this->cmsBlockImporter      = $cmsBlockImporter;
+        $this->cmsPageImporter       = $cmsPageImporter;
     }
 
     protected const IMPORTERS
@@ -58,6 +66,7 @@ class Importer
 
     public function import(array $data, int $sourceStoreId, int $targetStoreId): void
     {
+        $this->fixContentStaging();
         foreach (static::IMPORTERS as $code => $importer) {
             $importerData = array_filter($data, static function ($key) use ($code) {
                 // if the key starts with the importer code, the importer can handle the data
@@ -67,6 +76,16 @@ class Importer
                 $this->getImporterModel($importer)->import($importerData, $sourceStoreId, $targetStoreId);
             }
         }
+    }
+
+    private function fixContentStaging(): void
+    {
+        $versionManager = $this->versionManagerFactory->create();
+        if (!$versionManager) {
+            return;
+        }
+        // make sure that we use the baseline version, not any scheduled content
+        $versionManager->setCurrentVersionId(VersionManagerFactory::MIN_VERSION);
     }
 
     protected function getImporterModel(string $modelClass): ?AbstractImporter

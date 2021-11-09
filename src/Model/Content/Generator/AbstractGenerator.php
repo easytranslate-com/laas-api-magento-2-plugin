@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EasyTranslate\Connector\Model\Content\Generator;
 
 use EasyTranslate\Connector\Model\Config;
+use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\AbstractModel;
 
 abstract class AbstractGenerator
@@ -28,14 +30,22 @@ abstract class AbstractGenerator
      */
     protected $config;
 
-    public function __construct(Config $config)
+    /**
+     * @var VersionManagerFactory
+     */
+    private $versionManagerFactory;
+
+    public function __construct(Config $config, VersionManagerFactory $versionManagerFactory)
     {
-        $this->config = $config;
+        $this->config                = $config;
+        $this->versionManagerFactory = $versionManagerFactory;
     }
-    abstract protected function getCollection(array $modelIds, int $storeId);
+
+    abstract protected function getCollection(array $modelIds, int $storeId): AbstractDb;
 
     public function getContent(array $modelIds, int $storeId): array
     {
+        $this->fixContentStaging();
         $content = [];
         $models  = $this->getCollection($modelIds, $storeId);
         foreach ($models as $model) {
@@ -46,6 +56,16 @@ abstract class AbstractGenerator
         }
 
         return $content;
+    }
+
+    private function fixContentStaging(): void
+    {
+        $versionManager = $this->versionManagerFactory->create();
+        if (!$versionManager) {
+            return;
+        }
+        // make sure that we retrieve the baseline version, not any scheduled content
+        $versionManager->setCurrentVersionId(VersionManagerFactory::MIN_VERSION);
     }
 
     protected function getSingleContent($model): array

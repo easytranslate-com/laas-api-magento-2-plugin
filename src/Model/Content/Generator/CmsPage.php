@@ -6,9 +6,10 @@ namespace EasyTranslate\Connector\Model\Content\Generator;
 
 use EasyTranslate\Connector\Model\Config;
 use EasyTranslate\Connector\Model\Content\Generator\Filter\Cms as FilterCms;
+use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
 use Exception;
 use Magento\Cms\Model\ResourceModel\Page\CollectionFactory as CmsPageCollectionFactory;
-use Magento\Cms\Model\ResourceModel\Page\Collection as PageCollection;
+use Magento\Framework\Data\Collection\AbstractDb;
 
 class CmsPage extends AbstractGenerator
 {
@@ -29,18 +30,22 @@ class CmsPage extends AbstractGenerator
      */
     private $filterCms;
 
-    public function __construct(Config $config, CmsPageCollectionFactory $cmsCollectionFactory, FilterCms $filterCms)
-    {
-        parent::__construct($config);
-        $this->attributeCodes       = $this->config->getCmsPageAttributes();
+    public function __construct(
+        Config $config,
+        VersionManagerFactory $versionManagerFactory,
+        CmsPageCollectionFactory $cmsCollectionFactory,
+        FilterCms $filterCms
+    ) {
+        parent::__construct($config, $versionManagerFactory);
         $this->cmsCollectionFactory = $cmsCollectionFactory;
         $this->filterCms            = $filterCms;
+        $this->attributeCodes       = $this->config->getCmsPageAttributes();
     }
 
     /**
      * @throws Exception
      */
-    protected function getCollection(array $modelIds, int $storeId): PageCollection
+    protected function getCollection(array $modelIds, int $storeId): AbstractDb
     {
         // re-load CMS pages based on identifiers (a language-specific one may have been added after project creation)
         $identifiers = $this->cmsCollectionFactory->create()

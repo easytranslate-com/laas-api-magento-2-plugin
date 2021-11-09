@@ -6,9 +6,10 @@ namespace EasyTranslate\Connector\Model\Content\Generator;
 
 use EasyTranslate\Connector\Model\Config;
 use EasyTranslate\Connector\Model\Content\Generator\Filter\Cms as FilterCms;
+use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
 use Exception;
-use Magento\Cms\Model\ResourceModel\Block\Collection as BlockCollection;
 use Magento\Cms\Model\ResourceModel\Block\CollectionFactory as CmsBlockCollectionFactory;
+use Magento\Framework\Data\Collection\AbstractDb;
 
 class CmsBlock extends AbstractGenerator
 {
@@ -18,11 +19,6 @@ class CmsBlock extends AbstractGenerator
      * @var string
      */
     protected $idField = 'identifier';
-
-    /**
-     * @var Config
-     */
-    protected $config;
 
     /**
      * @var CmsBlockCollectionFactory
@@ -36,19 +32,20 @@ class CmsBlock extends AbstractGenerator
 
     public function __construct(
         Config $config,
-        FilterCms $filterCms,
-        CmsBlockCollectionFactory $blockCollectionFactory
+        VersionManagerFactory $versionManagerFactory,
+        CmsBlockCollectionFactory $blockCollectionFactory,
+        FilterCms $filterCms
     ) {
-        parent::__construct($config);
-        $this->attributeCodes         = $this->config->getCmsBlocksAttributes();
+        parent::__construct($config, $versionManagerFactory);
         $this->blockCollectionFactory = $blockCollectionFactory;
         $this->filterCms              = $filterCms;
+        $this->attributeCodes         = $this->config->getCmsBlocksAttributes();
     }
 
     /**
      * @throws Exception
      */
-    protected function getCollection(array $modelIds, int $storeId): BlockCollection
+    protected function getCollection(array $modelIds, int $storeId): AbstractDb
     {
         // re-load CMS blocks based on identifiers (a language-specific one may have been added after project creation)
         $identifiers = $this->blockCollectionFactory->create()
