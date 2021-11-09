@@ -14,7 +14,7 @@ class VersionManagerFactory
     /**
      * @var ObjectManagerInterface
      */
-    private $_objectManager;
+    private $objectManager;
 
     /**
      * @var ModuleManager
@@ -23,8 +23,8 @@ class VersionManagerFactory
 
     public function __construct(ObjectManagerInterface $objectManager, ModuleManager $moduleManager)
     {
-        $this->_objectManager = $objectManager;
-        $this->moduleManager  = $moduleManager;
+        $this->objectManager = $objectManager;
+        $this->moduleManager = $moduleManager;
     }
 
     public function create(): ?object
@@ -34,6 +34,6 @@ class VersionManagerFactory
         }
         // keep it as a string to not depend on Magento_Staging!
         // phpcs:ignore Magento2.PHP.LiteralNamespaces.LiteralClassUsage
-        return $this->_objectManager->get('Magento\Staging\Model\VersionManager');
+        return $this->objectManager->get('Magento\Staging\Model\VersionManager');
     }
 }
