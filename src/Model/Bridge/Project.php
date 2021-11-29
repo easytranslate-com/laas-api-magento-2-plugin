@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace EasyTranslate\Connector\Model\Bridge;
 
 use EasyTranslate\Connector\Model\Callback\LinkGenerator;
-use EasyTranslate\Connector\Model\Content\Generator\Category as CategoryContentGenerator;
-use EasyTranslate\Connector\Model\Content\Generator\CmsBlock as CmsBlocksContentGenerator;
-use EasyTranslate\Connector\Model\Content\Generator\CmsPage as CmsPageContentGenerator;
-use EasyTranslate\Connector\Model\Content\Generator\Product as ProductContentGenerator;
+use EasyTranslate\Connector\Model\Content\Generator;
 use EasyTranslate\Connector\Model\Locale\SourceMapper;
 use EasyTranslate\Connector\Model\Locale\TargetMapper;
 use EasyTranslate\Connector\Model\Project as ProjectModel;
@@ -46,43 +43,22 @@ class Project implements ProjectInterface
     private $linkGenerator;
 
     /**
-     * @var CmsBlocksContentGenerator
+     * @var Generator
      */
-    private $cmsBlocksContentGenerator;
-
-    /**
-     * @var CmsPageContentGenerator
-     */
-    private $cmsPageContentGenerator;
-
-    /**
-     * @var CategoryContentGenerator
-     */
-    private $categoryContentGenerator;
-
-    /**
-     * @var ProductContentGenerator
-     */
-    private $productContentGenerator;
+    private $contentGenerator;
 
     public function __construct(
         SourceMapper $sourceMapper,
         TargetMapper $targetMapper,
         ScopeConfigInterface $scopeConfig,
         LinkGenerator $linkGenerator,
-        CmsBlocksContentGenerator $cmsBlocksContentGenerator,
-        CmsPageContentGenerator $cmsPageContentGenerator,
-        CategoryContentGenerator $categoryContentGenerator,
-        ProductContentGenerator $productContentGenerator
+        Generator $contentGenerator
     ) {
-        $this->sourceMapper              = $sourceMapper;
-        $this->targetMapper              = $targetMapper;
-        $this->scopeConfig               = $scopeConfig;
-        $this->linkGenerator             = $linkGenerator;
-        $this->cmsBlocksContentGenerator = $cmsBlocksContentGenerator;
-        $this->cmsPageContentGenerator   = $cmsPageContentGenerator;
-        $this->categoryContentGenerator  = $categoryContentGenerator;
-        $this->productContentGenerator   = $productContentGenerator;
+        $this->sourceMapper     = $sourceMapper;
+        $this->targetMapper     = $targetMapper;
+        $this->scopeConfig      = $scopeConfig;
+        $this->linkGenerator    = $linkGenerator;
+        $this->contentGenerator = $contentGenerator;
     }
 
     public function bindMagentoProject($magentoProject): void
@@ -122,8 +98,7 @@ class Project implements ProjectInterface
     public function getTargetLanguages(): array
     {
         $targetLanguages = [];
-        $targetStoreIds  = $this->magentoProject->getTargetStoreIds();
-        foreach ($targetStoreIds as $targetStoreId) {
+        foreach ($this->magentoProject->getTargetStoreIds() as $targetStoreId) {
             $targetLocale      = $this->scopeConfig->getValue(
                 Data::XML_PATH_DEFAULT_LOCALE,
                 ScopeInterface::SCOPE_STORE,
@@ -142,41 +117,9 @@ class Project implements ProjectInterface
 
     public function getContent(): array
     {
-        $storeId           = (int)$this->magentoProject->getData('source_store_id');
-        $cmsBlocksContent  = $this->getCmsBlocksContent($storeId);
-        $cmsPagesContent   = $this->getCmsPagesContent($storeId);
-        $categoriesContent = $this->getCategoriesContent($storeId);
-        $productsContent   = $this->getProductsContent($storeId);
+        $storeId = (int)$this->magentoProject->getData('source_store_id');
 
-        return array_merge($cmsBlocksContent, $cmsPagesContent, $categoriesContent, $productsContent);
-    }
-
-    private function getCmsBlocksContent(int $storeId): array
-    {
-        $cmsBlockIds = $this->magentoProject->getCmsBlocks();
-
-        return $this->cmsBlocksContentGenerator->getContent($cmsBlockIds, $storeId);
-    }
-
-    private function getCmsPagesContent(int $storeId): array
-    {
-        $cmsPageIds = $this->magentoProject->getCmsPages();
-
-        return $this->cmsPageContentGenerator->getContent($cmsPageIds, $storeId);
-    }
-
-    private function getCategoriesContent(int $storeId): array
-    {
-        $categoryIds = $this->magentoProject->getCategories();
-
-        return $this->categoryContentGenerator->getContent($categoryIds, $storeId);
-    }
-
-    protected function getProductsContent(int $storeId): array
-    {
-        $productIds = $this->magentoProject->getProducts();
-
-        return $this->productContentGenerator->getContent($productIds, $storeId);
+        return $this->contentGenerator->generateContent($this->magentoProject, $storeId);
     }
 
     public function getWorkflow(): string
