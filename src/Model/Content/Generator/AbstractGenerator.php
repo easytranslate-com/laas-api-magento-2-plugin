@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyTranslate\Connector\Model\Content\Generator;
 
 use EasyTranslate\Connector\Model\Config;
+use EasyTranslate\Connector\Model\Project as ProjectModel;
 use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\AbstractModel;
@@ -41,16 +42,14 @@ abstract class AbstractGenerator
         $this->versionManagerFactory = $versionManagerFactory;
     }
 
-    abstract protected function getCollection(array $modelIds, int $storeId): AbstractDb;
+    abstract protected function getCollection(ProjectModel $project): AbstractDb;
 
-    public function getContent(array $modelIds, int $storeId): array
+    public function getContent(ProjectModel $project): array
     {
         $this->fixContentStaging();
         $content = [];
-        $models  = $this->getCollection($modelIds, $storeId);
-        foreach ($models as $model) {
-            $singleContent = $this->getSingleContent($model);
-            foreach ($singleContent as $key => $value) {
+        foreach ($this->getCollection($project) as $model) {
+            foreach ($this->getSingleContent($model) as $key => $value) {
                 $content[$key] = $value;
             }
         }

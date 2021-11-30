@@ -328,9 +328,8 @@ class Project extends AbstractModel implements ProjectInterface
         $this->setData('currency', $externalProject->getCurrency());
         foreach ($externalProject->getTasks() as $externalTask) {
             $targetLanguage = $externalTask->getTargetLanguage();
-            $targetStoreIds = $this->getStoreIdsByTargetLanguage($targetLanguage);
             // one external task (language-specific) can result in multiple Magento tasks (store-specific)
-            foreach ($targetStoreIds as $targetStoreId) {
+            foreach ($this->getStoreIdsByTargetLanguage($targetLanguage) as $targetStoreId) {
                 $magentoTask = $this->taskFactory->create();
                 $magentoTask->setData(ProjectInterface::PROJECT_ID, $this->getId());
                 $magentoTask->setData('external_id', $externalTask->getId());
@@ -348,8 +347,7 @@ class Project extends AbstractModel implements ProjectInterface
     {
         $targetMagentoLocale = $this->mapper->mapExternalCodeToMagentoCode($targetLanguage);
         $storeIds            = [];
-        $potentialStoreIds   = $this->getData(ProjectInterface::TARGET_STORE_IDS);
-        foreach ($potentialStoreIds as $potentialStoreId) {
+        foreach ($this->getData(ProjectInterface::TARGET_STORE_IDS) as $potentialStoreId) {
             $potentialStoreLocale = $this->config->getValue(
                 Data::XML_PATH_DEFAULT_LOCALE,
                 ScopeInterface::SCOPE_STORE,

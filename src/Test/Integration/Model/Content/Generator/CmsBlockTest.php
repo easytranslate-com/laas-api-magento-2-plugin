@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace EasyTranslate\Connector\Test\Integration\Model\Content\Generator;
 
+use EasyTranslate\Connector\Api\ProjectRepositoryInterface;
 use EasyTranslate\Connector\Model\Content\Generator\AbstractGenerator;
 use EasyTranslate\Connector\Model\Content\Generator\CmsBlock as CmsBlockGenerator;
+use EasyTranslate\Connector\Model\Project;
 use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Cms\Api\GetBlockByIdentifierInterface;
 use Magento\Cms\Model\Block;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
@@ -30,16 +33,29 @@ class CmsBlockTest extends TestCase
      */
     private $storeManager;
 
+    /**
+     * @var int
+     */
+    private static $projectId;
+
+    /**
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
     protected function setUp(): void
     {
         $objectManager              = Bootstrap::getObjectManager();
         $this->cmsBlockGenerator    = $objectManager->create(CmsBlockGenerator::class);
         $this->getBlockByIdentifier = $objectManager->create(GetBlockByIdentifierInterface::class);
         $this->storeManager         = $objectManager->create(StoreManagerInterface::class);
+        $this->projectRepository    = $objectManager->create(ProjectRepositoryInterface::class);
     }
 
     /**
-     * @magentoDataFixture Magento/Cms/_files/block.php
+     * @magentoDataFixture   Magento/Cms/_files/block.php
+     * @magentoDataFixture   loadProjectFixture
+     * @throws NoSuchEntityException
      */
     public function testGetContent(): void
     {
@@ -52,6 +68,8 @@ class CmsBlockTest extends TestCase
     /**
      * @magentoDataFixture   Magento/Cms/_files/block.php
      * @magentoConfigFixture current_store easytranslate/cms_blocks/attributes title
+     * @magentoDataFixture   loadProjectFixture
+     * @throws NoSuchEntityException
      */
     public function testGetContentRespectsSettings(): void
     {
@@ -65,6 +83,8 @@ class CmsBlockTest extends TestCase
     /**
      * @magentoDataFixture   Magento/Cms/_files/block.php
      * @magentoConfigFixture current_store easytranslate/cms_blocks/attributes
+     * @magentoDataFixture   loadProjectFixture
+     * @throws NoSuchEntityException
      */
     public function testGetContentRespectsSettings2(): void
     {
@@ -76,8 +96,10 @@ class CmsBlockTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture loadMultipleWebsitesWithStoreGroupsStoresFixture
-     * @magentoDataFixture loadBlocksForDifferentStoresFixture
+     * @magentoDataFixture   loadMultipleWebsitesWithStoreGroupsStoresFixture
+     * @magentoDataFixture   loadBlocksForDifferentStoresFixture
+     * @magentoDataFixture   loadProjectFixture
+     * @throws NoSuchEntityException
      */
     public function testGetContentTakesCorrectBaseBlock(): void
     {
@@ -91,6 +113,9 @@ class CmsBlockTest extends TestCase
         $this->assertContent($identifier, $storeId, $includedAttributes, []);
     }
 
+    /**
+     * @throws NoSuchEntityException
+     */
     private function assertContent(
         string $identifier,
         int $storeId,
@@ -98,8 +123,11 @@ class CmsBlockTest extends TestCase
         array $excludedAttributes
     ): void {
         /** @var Block $block */
-        $block             = $this->getBlockByIdentifier->execute($identifier, $storeId);
-        $generatedContents = $this->cmsBlockGenerator->getContent([$block->getId()], $storeId);
+        $block   = $this->getBlockByIdentifier->execute($identifier, $storeId);
+        $project = $this->projectRepository->get(self::$projectId);
+        $project->setCmsBlocks([$block->getId()]);
+        $project->setSourceStoreId($storeId);
+        $generatedContents = $this->cmsBlockGenerator->getContent($project);
         foreach ($includedAttributes as $attributeCode) {
             $keyParts = [CmsBlockGenerator::ENTITY_CODE, $block->getData(BlockInterface::IDENTIFIER), $attributeCode];
             $key      = implode(AbstractGenerator::KEY_SEPARATOR, $keyParts);
@@ -123,5 +151,16 @@ class CmsBlockTest extends TestCase
     public static function loadBlocksForDifferentStoresFixture(): void
     {
         include __DIR__ . '/../../../../_files/Magento/Cms/blocks_for_different_stores.php';
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    public static function loadProjectFixture(): void
+    {
+        include __DIR__ . '/../../../_files/project.php';
+        /** @var Project $project */
+        // @phpstan-ignore-next-line
+        self::$projectId = (int)$project->getId();
     }
 }

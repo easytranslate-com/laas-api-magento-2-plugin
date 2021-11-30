@@ -6,6 +6,7 @@ namespace EasyTranslate\Connector\Model\Content\Generator;
 
 use EasyTranslate\Connector\Model\Config;
 use EasyTranslate\Connector\Model\Content\Generator\Filter\Cms as FilterCms;
+use EasyTranslate\Connector\Model\Project as ProjectModel;
 use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
 use Exception;
 use Magento\Cms\Model\ResourceModel\Block\CollectionFactory as CmsBlockCollectionFactory;
@@ -45,16 +46,16 @@ class CmsBlock extends AbstractGenerator
     /**
      * @throws Exception
      */
-    protected function getCollection(array $modelIds, int $storeId): AbstractDb
+    protected function getCollection(ProjectModel $project): AbstractDb
     {
         // re-load CMS blocks based on identifiers (a language-specific one may have been added after project creation)
         $identifiers = $this->blockCollectionFactory->create()
-            ->addFieldToFilter('block_id', ['in' => $modelIds])
+            ->addFieldToFilter('block_id', ['in' => $project->getCmsBlocks()])
             ->getColumnValues($this->idField);
         $cmsBlocks   = $this->blockCollectionFactory->create()
             ->addFieldToSelect($this->attributeCodes)
             ->addFieldToSelect($this->idField)
-            ->addStoreFilter($storeId)
+            ->addStoreFilter((int)$project->getData('source_store_id'))
             ->addFieldToFilter($this->idField, ['in' => $identifiers]);
 
         return $this->filterCms->filterEntities($cmsBlocks, $identifiers);
