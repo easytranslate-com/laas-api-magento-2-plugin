@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace EasyTranslate\Connector\Model\Content;
 
-use EasyTranslate\Connector\Model\Content\Generator\Category;
-use EasyTranslate\Connector\Model\Content\Generator\CmsBlock;
-use EasyTranslate\Connector\Model\Content\Generator\CmsPage;
-use EasyTranslate\Connector\Model\Content\Generator\Product;
-use EasyTranslate\Connector\Model\Content\Importer\AbstractImporter;
 use EasyTranslate\Connector\Model\Staging\VersionManagerFactory;
 
 class Importer
@@ -16,17 +11,17 @@ class Importer
     /**
      * @var array
      */
-    protected $importers;
+    private $importers;
 
     /**
      * @var VersionManagerFactory
      */
     private $versionManagerFactory;
 
-    public function __construct(VersionManagerFactory $versionManagerFactory, array $importers)
+    public function __construct(VersionManagerFactory $versionManagerFactory, array $importers = [])
     {
-        $this->importers             = $importers;
         $this->versionManagerFactory = $versionManagerFactory;
+        $this->importers             = $importers;
     }
 
     public function import(array $data, int $sourceStoreId, int $targetStoreId): void

@@ -48,10 +48,8 @@ abstract class AbstractGenerator
     {
         $this->fixContentStaging();
         $content = [];
-        $models  = $this->getCollection($project, $storeId);
-        foreach ($models as $model) {
-            $singleContent = $this->getSingleContent($model);
-            foreach ($singleContent as $key => $value) {
+        foreach ($this->getCollection($project, $storeId) as $model) {
+            foreach ($this->getSingleContent($model) as $key => $value) {
                 $content[$key] = $value;
             }
         }

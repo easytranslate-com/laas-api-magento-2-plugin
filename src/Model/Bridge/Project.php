@@ -117,9 +117,7 @@ class Project implements ProjectInterface
 
     public function getContent(): array
     {
-        $storeId = (int)$this->magentoProject->getData('source_store_id');
-
-        return $this->contentGenerator->generateContent($this->magentoProject, $storeId);
+        return $this->contentGenerator->generateContent($this->magentoProject);
     }
 
     public function getWorkflow(): string

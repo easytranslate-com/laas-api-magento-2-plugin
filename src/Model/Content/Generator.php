@@ -13,18 +13,18 @@ class Generator
      */
     private $generators;
 
-    public function __construct(array $generators)
+    public function __construct(array $generators = [])
     {
         $this->generators = $generators;
     }
 
-    public function generateContent(ProjectModel $project, int $storeId): array
+    public function generateContent(ProjectModel $project): array
     {
         $content = [];
         foreach ($this->generators as $generator) {
-            $content[] = $generator->getContent($project, $storeId);
+            $content[] = $generator->getContent($project, (int)$project->getData('source_store_id'));
         }
 
-        return $content;
+        return array_merge([], ...$content);
     }
 }
