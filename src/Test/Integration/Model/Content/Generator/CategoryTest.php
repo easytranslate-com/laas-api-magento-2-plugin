@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace EasyTranslate\Connector\Test\Integration\Model\Content\Generator;
 
+use EasyTranslate\Connector\Api\ProjectRepositoryInterface;
 use EasyTranslate\Connector\Model\Content\Generator\AbstractGenerator;
 use EasyTranslate\Connector\Model\Content\Generator\Category as CategoryGenerator;
+use EasyTranslate\Connector\Model\Project;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Category;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
@@ -29,16 +32,29 @@ class CategoryTest extends TestCase
      */
     private $storeManager;
 
+    /**
+     * @var int
+     */
+    private static $projectId;
+
+    /**
+     * @var ProjectRepositoryInterface
+     */
+    private $projectRepository;
+
     protected function setUp(): void
     {
         $objectManager            = Bootstrap::getObjectManager();
         $this->categoryGenerator  = $objectManager->create(CategoryGenerator::class);
         $this->categoryRepository = $objectManager->create(CategoryRepositoryInterface::class);
         $this->storeManager       = $objectManager->create(StoreManagerInterface::class);
+        $this->projectRepository  = $objectManager->create(ProjectRepositoryInterface::class);
     }
 
     /**
      * @magentoDataFixture Magento/Catalog/_files/category.php
+     * @magentoDataFixture loadProjectFixture
+     * @throws NoSuchEntityException
      */
     public function testGetContent(): void
     {
@@ -51,6 +67,8 @@ class CategoryTest extends TestCase
     /**
      * @magentoDataFixture   Magento/Catalog/_files/category.php
      * @magentoConfigFixture current_store easytranslate/categories/attributes
+     * @magentoDataFixture   loadProjectFixture
+     * @throws NoSuchEntityException
      */
     public function testGetContentRespectsSettings(): void
     {
@@ -62,9 +80,11 @@ class CategoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/_files/category.php
-     * @magentoDataFixture Magento/Store/_files/store.php
-     * @magentoDataFixture loadCategoryOnSecondStoreFixture
+     * @magentoDataFixture   Magento/Catalog/_files/category.php
+     * @magentoDataFixture   Magento/Store/_files/store.php
+     * @magentoDataFixture   loadCategoryOnSecondStoreFixture
+     * @magentoDataFixture   loadProjectFixture
+     * @throws NoSuchEntityException
      */
     public function testGetContentTakesCorrectBaseCategory(): void
     {
@@ -77,6 +97,9 @@ class CategoryTest extends TestCase
         $this->assertContent($id, $storeId, $includedAttributes, []);
     }
 
+    /**
+     * @throws NoSuchEntityException
+     */
     private function assertContent(
         int $id,
         int $storeId,
@@ -84,8 +107,11 @@ class CategoryTest extends TestCase
         array $excludedAttributes
     ): void {
         /** @var Category $category */
-        $category          = $this->categoryRepository->get($id, $storeId);
-        $generatedContents = $this->categoryGenerator->getContent([$category->getId()], $storeId);
+        $category = $this->categoryRepository->get($id, $storeId);
+        $project  = $this->projectRepository->get(self::$projectId);
+        $project->setCategories([$category->getId()]);
+        $project->setSourceStoreId($storeId);
+        $generatedContents = $this->categoryGenerator->getContent($project);
         foreach ($includedAttributes as $attributeCode) {
             $keyParts = [CategoryGenerator::ENTITY_CODE, $category->getId(), $attributeCode];
             $key      = implode(AbstractGenerator::KEY_SEPARATOR, $keyParts);
@@ -104,5 +130,16 @@ class CategoryTest extends TestCase
     public static function loadCategoryOnSecondStoreFixture(): void
     {
         include __DIR__ . '/../../../../_files/Magento/Catalog/category_on_second_store.php';
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    public static function loadProjectFixture(): void
+    {
+        include __DIR__ . '/../../../_files/project.php';
+        /** @var Project $project */
+        // @phpstan-ignore-next-line
+        self::$projectId = (int)$project->getId();
     }
 }
