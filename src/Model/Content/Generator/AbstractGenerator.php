@@ -42,13 +42,13 @@ abstract class AbstractGenerator
         $this->versionManagerFactory = $versionManagerFactory;
     }
 
-    abstract protected function getCollection(ProjectModel $project, int $storeId): AbstractDb;
+    abstract protected function getCollection(ProjectModel $project): AbstractDb;
 
-    public function getContent(ProjectModel $project, int $storeId): array
+    public function getContent(ProjectModel $project): array
     {
         $this->fixContentStaging();
         $content = [];
-        foreach ($this->getCollection($project, $storeId) as $model) {
+        foreach ($this->getCollection($project, (int)$project->getData('source_store_id')) as $model) {
             foreach ($this->getSingleContent($model) as $key => $value) {
                 $content[$key] = $value;
             }

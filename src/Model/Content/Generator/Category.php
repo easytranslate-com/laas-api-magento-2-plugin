@@ -29,10 +29,10 @@ class Category extends AbstractEavGenerator
         $this->attributeCodes            = $this->config->getCategoriesAttributes();
     }
 
-    protected function getCollection(ProjectModel $project, int $storeId): AbstractDb
+    protected function getCollection(ProjectModel $project): AbstractDb
     {
         return $this->categoryCollectionFactory->create()
-            ->setStoreId($storeId)
+            ->setStoreId((int)$project->getData('source_store_id'))
             ->addAttributeToSelect($this->attributeCodes)
             ->addAttributeToFilter('entity_id', ['in' => $project->getCategories()]);
     }

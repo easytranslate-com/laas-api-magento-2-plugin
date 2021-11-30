@@ -46,7 +46,7 @@ class CmsBlock extends AbstractGenerator
     /**
      * @throws Exception
      */
-    protected function getCollection(ProjectModel $project, int $storeId): AbstractDb
+    protected function getCollection(ProjectModel $project): AbstractDb
     {
         // re-load CMS blocks based on identifiers (a language-specific one may have been added after project creation)
         $identifiers = $this->blockCollectionFactory->create()
@@ -55,7 +55,7 @@ class CmsBlock extends AbstractGenerator
         $cmsBlocks   = $this->blockCollectionFactory->create()
             ->addFieldToSelect($this->attributeCodes)
             ->addFieldToSelect($this->idField)
-            ->addStoreFilter($storeId)
+            ->addStoreFilter((int)$project->getData('source_store_id'))
             ->addFieldToFilter($this->idField, ['in' => $identifiers]);
 
         return $this->filterCms->filterEntities($cmsBlocks, $identifiers);

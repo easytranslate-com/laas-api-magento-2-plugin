@@ -46,7 +46,7 @@ class CmsPage extends AbstractGenerator
     /**
      * @throws Exception
      */
-    protected function getCollection(ProjectModel $project, int $storeId): AbstractDb
+    protected function getCollection(ProjectModel $project): AbstractDb
     {
         // re-load CMS pages based on identifiers (a language-specific one may have been added after project creation)
         $identifiers = $this->cmsCollectionFactory->create()
@@ -55,7 +55,7 @@ class CmsPage extends AbstractGenerator
         $cmsPages    = $this->cmsCollectionFactory->create()
             ->addFieldToSelect($this->attributeCodes)
             ->addFieldToSelect($this->idField)
-            ->addStoreFilter($storeId)
+            ->addStoreFilter((int)$project->getData('source_store_id'))
             ->addFieldToFilter($this->idField, ['in' => $identifiers]);
 
         return $this->filterCms->filterEntities($cmsPages, $identifiers);

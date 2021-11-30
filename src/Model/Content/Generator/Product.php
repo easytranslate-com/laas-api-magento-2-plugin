@@ -29,10 +29,10 @@ class Product extends AbstractEavGenerator
         $this->attributeCodes           = $this->config->getProductsAttributes();
     }
 
-    protected function getCollection(ProjectModel $project, int $storeId): AbstractDb
+    protected function getCollection(ProjectModel $project): AbstractDb
     {
         return $this->productCollectionFactory->create()
-            ->setStoreId($storeId)
+            ->setStoreId((int)$project->getData('source_store_id'))
             ->addAttributeToSelect($this->attributeCodes)
             ->addAttributeToFilter('entity_id', ['in' => $project->getProducts()]);
     }
