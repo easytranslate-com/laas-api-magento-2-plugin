@@ -140,6 +140,9 @@ class ProductTest extends TestCase
         }
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public static function loadProjectFixture(): void
     {
         include __DIR__ . '/../../../_files/project.php';

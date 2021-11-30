@@ -132,6 +132,9 @@ class CategoryTest extends TestCase
         include __DIR__ . '/../../../../_files/Magento/Catalog/category_on_second_store.php';
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public static function loadProjectFixture(): void
     {
         include __DIR__ . '/../../../_files/project.php';
