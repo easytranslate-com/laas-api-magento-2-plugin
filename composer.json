@@ -3,7 +3,7 @@
     "description": "EasyTranslate Connector for Magento 2",
     "type": "magento2-module",
     "license": "OSL-3.0",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "authors": [
         {
             "name": "Team CustomGento",
