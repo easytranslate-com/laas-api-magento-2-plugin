@@ -93,13 +93,34 @@ class Handler
 
     private function loadTargetContent(Project $project, Task $task): array
     {
+        $contentLink   = $task->getData('content_link');
+        $initialTaskId = $task->getData('external_id');
+        $currentTaskId = $this->retrieveTaskIdFromLink($contentLink) ?? $initialTaskId;
+        // make sure that we retrieve the content with the current task ID, not the initial one!
+        $task->setData('external_id', $currentTaskId);
+
         $configuration = $this->config->getApiConfiguration();
         $taskApi       = new TaskApi($configuration);
         $bridgeProject = $this->bridgeProjectFactory->create();
         $bridgeProject->bindMagentoProject($project);
         $bridgeTask = $this->bridgeTaskFactory->create();
         $bridgeTask->bindMagentoTask($task);
+        $targetContent = $taskApi->downloadTaskTarget($bridgeProject, $bridgeTask)->getData();
 
-        return $taskApi->downloadTaskTarget($bridgeProject, $bridgeTask)->getData();
+        // make sure the external ID is not updated in the Magento database
+        // future callbacks will still reference the initial task ID!
+        $task->setData('external_id', $initialTaskId);
+
+        return $targetContent;
+    }
+
+    private function retrieveTaskIdFromLink(string $link): ?string
+    {
+        $matches = [];
+        if (preg_match('/\/tasks\/([^\/]*)\//', $link, $matches) && count($matches) > 1) {
+            return $matches[1];
+        }
+
+        return null;
     }
 }
