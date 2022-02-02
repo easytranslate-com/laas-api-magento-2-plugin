@@ -4,5 +4,25 @@
         <referenceContainer name="content">
             <uiComponent name="easytranslate_project_form"/>
         </referenceContainer>
+        <referenceBlock name="products">
+            <arguments>
+                <argument name="secure_html_renderer_polyfill" xsi:type="object">\EasyTranslate\Connector\Model\Polyfill\SecureHtmlRenderer</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="categories">
+            <arguments>
+                <argument name="secure_html_renderer_polyfill" xsi:type="object">\EasyTranslate\Connector\Model\Polyfill\SecureHtmlRenderer</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="cmsBlocks">
+            <arguments>
+                <argument name="secure_html_renderer_polyfill" xsi:type="object">\EasyTranslate\Connector\Model\Polyfill\SecureHtmlRenderer</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="cmsPages">
+            <arguments>
+                <argument name="secure_html_renderer_polyfill" xsi:type="object">\EasyTranslate\Connector\Model\Polyfill\SecureHtmlRenderer</argument>
+            </arguments>
+        </referenceBlock>
     </body>
 </page>

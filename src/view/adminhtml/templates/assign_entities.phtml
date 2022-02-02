@@ -4,6 +4,9 @@
 
 $blockGrid = $block->getBlockGrid();
 $gridJsObjectName = $blockGrid->getJsObjectName();
+if (!isset($secureRenderer)) {
+    $secureRenderer = $block->getData('secure_html_renderer_polyfill');
+}
 ?>
 <?= $block->getGridHtml() ?>
 <input type="hidden"
