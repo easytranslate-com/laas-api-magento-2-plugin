@@ -82,7 +82,7 @@ It may also be compatible with older versions, but we strongly recommend to only
 The installation procedure highly depends on your setup. In any case, you should use a version control system like git
 and test the installation on a development system.
 
-### Composer Installation
+### Composer Installation (recommended)
 
 1. `composer require easytranslate/m2-connector`
 2. `bin/magento module:enable EasyTranslate_Connector`
@@ -90,7 +90,9 @@ and test the installation on a development system.
 4. `bin/magento setup:di:compile`
 5. `bin/magento cache:flush`
 
-### Manual Installation
+### Manual Installation (_not_ recommended)
+
+Please mind that we highly recommend installing the module via Composer as described above. If you really want to install it manually, you have to make sure that all dependencies are also installed manually. For instance, you have to install the [PHP Rest API Client](https://github.com/easytranslate-com/php-rest-api-client) manually via Composer.
 
 1. Unzip the downloaded files.
 2. Create the directory `app/code/EasyTranslate/Connector/`: `mkdir -p app/code/EasyTranslate/Connector/`
