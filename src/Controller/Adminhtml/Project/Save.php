@@ -127,7 +127,7 @@ class Save extends Action
                         __('The project has successfully been sent to EasyTranslate.')
                     );
                 } catch (Exception $e) {
-                    $message = (string)__('The project could not be sent to EasyTranslate. ' . $e->getMessage());
+                    $message = (string)__('The project could not be sent to EasyTranslate: %1', $e->getMessage());
                     $this->messageManager->addExceptionMessage($e, $message);
 
                     return $resultRedirect->setPath(

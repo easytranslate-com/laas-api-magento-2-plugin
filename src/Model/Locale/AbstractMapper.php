@@ -29,7 +29,7 @@ abstract class AbstractMapper
     {
         $mapping = array_flip(static::INTERNAL_TO_EXTERNAL);
         if (!$this->isExternalCodeSupported($externalCode)) {
-            throw new LocalizedException(__('Unsupported locale code: ' . $externalCode));
+            throw new LocalizedException(__('Unsupported locale code: %1', $externalCode));
         }
 
         return $mapping[$externalCode];
@@ -41,7 +41,7 @@ abstract class AbstractMapper
     public function mapMagentoCodeToExternalCode(string $magentoCode): string
     {
         if (!$this->isMagentoCodeSupported($magentoCode)) {
-            throw new LocalizedException(__('Unsupported locale code: ' . $magentoCode));
+            throw new LocalizedException(__('Unsupported locale code: %1', $magentoCode));
         }
 
         return static::INTERNAL_TO_EXTERNAL[$magentoCode];
