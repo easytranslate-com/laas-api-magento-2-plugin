@@ -24,7 +24,6 @@ class SourceMapper extends AbstractMapper
             'ca_ES'      => 'ca',
             'zh_Hans_CN' => 'zh_CN',
             'zh_Hant_HK' => 'zh_HK',
-            'zh_Hant_TW' => 'NOT_SUPPORTED',
             'hr_HR'      => 'hr',
             'cs_CZ'      => 'cs',
             'da_DK'      => 'da',
