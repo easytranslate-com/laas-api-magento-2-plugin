@@ -113,7 +113,8 @@ class CmsBlocks extends AbstractEntity
             $cmsBlocksCollection->addFieldToFilter('main_table.block_id', ['in' => $selectedCmsBlockIds]);
         }
         $cmsBlocksCollection->addStoreFilter($this->projectGetter->getProject()->getSourceStoreId());
-        $this->eventManager->dispatch('easytranslate_prepare_cms_blocks_collection',
+        $this->eventManager->dispatch(
+            'easytranslate_prepare_cms_blocks_collection',
             ['cmsBlocksCollection' => $cmsBlocksCollection]
         );
         $this->setCollection($cmsBlocksCollection);

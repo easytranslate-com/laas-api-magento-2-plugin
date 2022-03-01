@@ -108,7 +108,8 @@ class Categories extends AbstractEntity
             $categoryCollection->addFieldToFilter('entity_id', ['in' => $categoryIds]);
         }
         $categoryCollection->setStoreId($this->projectGetter->getProject()->getSourceStoreId());
-        $this->eventManager->dispatch('easytranslate_prepare_categories_collection',
+        $this->eventManager->dispatch(
+            'easytranslate_prepare_categories_collection',
             ['categoryCollection' => $categoryCollection]
         );
         $this->setCollection($categoryCollection);
