@@ -121,7 +121,8 @@ class CmsPages extends AbstractEntity
         }
         $cmsPagesCollection->addStoreFilter($this->projectGetter->getProject()->getSourceStoreId());
         $this->eventManager->dispatch('easytranslate_prepare_cms_pages_collection',
-            ['cmsPagesCollection' => $cmsPagesCollection]);
+            ['cmsPagesCollection' => $cmsPagesCollection]
+        );
         $this->setCollection($cmsPagesCollection);
 
         return parent::_prepareCollection();

@@ -109,7 +109,8 @@ class Categories extends AbstractEntity
         }
         $categoryCollection->setStoreId($this->projectGetter->getProject()->getSourceStoreId());
         $this->eventManager->dispatch('easytranslate_prepare_categories_collection',
-            ['categoryCollection' => $categoryCollection]);
+            ['categoryCollection' => $categoryCollection]
+        );
         $this->setCollection($categoryCollection);
 
         return parent::_prepareCollection();

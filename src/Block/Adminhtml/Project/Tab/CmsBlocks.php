@@ -19,6 +19,9 @@ use Magento\Framework\Data\Collection as CollectionData;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CmsBlocks extends AbstractEntity
 {
     /**
@@ -111,7 +114,8 @@ class CmsBlocks extends AbstractEntity
         }
         $cmsBlocksCollection->addStoreFilter($this->projectGetter->getProject()->getSourceStoreId());
         $this->eventManager->dispatch('easytranslate_prepare_cms_blocks_collection',
-            ['cmsBlocksCollection' => $cmsBlocksCollection]);
+            ['cmsBlocksCollection' => $cmsBlocksCollection]
+        );
         $this->setCollection($cmsBlocksCollection);
 
         return parent::_prepareCollection();
