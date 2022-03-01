@@ -15,6 +15,7 @@ use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Catalog\Model\ResourceModel\Category\Collection;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 use Magento\Framework\Data\Collection as CollectionData;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 
 class Categories extends AbstractEntity
@@ -29,11 +30,14 @@ class Categories extends AbstractEntity
      */
     private $projectGetter;
 
+    private EventManager $eventManager;
+
     public function __construct(
         Context $context,
         Data $backendHelper,
         CategoryCollectionFactory $collectionFactory,
-        ProjectGetter $projectGetter
+        ProjectGetter $projectGetter,
+        EventManager $eventManager
     ) {
         parent::__construct($context, $backendHelper);
         $this->setId('easytranslate_connector_categories');
@@ -41,6 +45,7 @@ class Categories extends AbstractEntity
         $this->setUseAjax(true);
         $this->collectionFactory = $collectionFactory;
         $this->projectGetter     = $projectGetter;
+        $this->eventManager      = $eventManager;
     }
 
     /**
@@ -100,6 +105,8 @@ class Categories extends AbstractEntity
             $categoryCollection->addFieldToFilter('entity_id', ['in' => $categoryIds]);
         }
         $categoryCollection->setStoreId($this->projectGetter->getProject()->getSourceStoreId());
+        $this->eventManager->dispatch('easytranslate_prepare_categories_collection',
+            ['categoryCollection' => $categoryCollection]);
         $this->setCollection($categoryCollection);
 
         return parent::_prepareCollection();
@@ -148,6 +155,7 @@ class Categories extends AbstractEntity
                 ]
             );
         }
+        $this->eventManager->dispatch('easytranslate_prepare_categories_columns');
 
         return parent::_prepareColumns();
     }
