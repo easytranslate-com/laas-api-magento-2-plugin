@@ -36,7 +36,10 @@ class Products extends AbstractEntity
      */
     private $projectGetter;
 
-    private EventManager $eventManager;
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
 
     public function __construct(
         Context $context,
@@ -177,6 +180,7 @@ class Products extends AbstractEntity
             );
         }
         $this->eventManager->dispatch('easytranslate_prepare_product_columns');
+
         return parent::_prepareColumns();
     }
 

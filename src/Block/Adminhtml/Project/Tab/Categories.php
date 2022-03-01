@@ -30,7 +30,10 @@ class Categories extends AbstractEntity
      */
     private $projectGetter;
 
-    private EventManager $eventManager;
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
 
     public function __construct(
         Context $context,
