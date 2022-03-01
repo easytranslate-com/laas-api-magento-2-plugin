@@ -114,8 +114,8 @@ class CmsBlocks extends AbstractEntity
         }
         $cmsBlocksCollection->addStoreFilter($this->projectGetter->getProject()->getSourceStoreId());
         $this->eventManager->dispatch(
-            'easytranslate_prepare_cms_blocks_collection',
-            ['cmsBlocksCollection' => $cmsBlocksCollection]
+            'easytranslate_prepare_cms_block_collection',
+            ['cms_block_collection' => $cmsBlocksCollection]
         );
         $this->setCollection($cmsBlocksCollection);
 
@@ -202,7 +202,7 @@ class CmsBlocks extends AbstractEntity
                 ]
             );
         }
-        $this->eventManager->dispatch('easytranslate_prepare_cms_blocks_columns');
+        $this->eventManager->dispatch('easytranslate_prepare_cms_blocks_columns', ['columns' => $this]);
 
         return parent::_prepareColumns();
     }

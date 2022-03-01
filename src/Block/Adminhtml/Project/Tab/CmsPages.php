@@ -121,8 +121,8 @@ class CmsPages extends AbstractEntity
         }
         $cmsPagesCollection->addStoreFilter($this->projectGetter->getProject()->getSourceStoreId());
         $this->eventManager->dispatch(
-            'easytranslate_prepare_cms_pages_collection',
-            ['cmsPagesCollection' => $cmsPagesCollection]
+            'easytranslate_prepare_cms_page_collection',
+            ['cms_page_collection' => $cmsPagesCollection]
         );
         $this->setCollection($cmsPagesCollection);
 
@@ -217,7 +217,7 @@ class CmsPages extends AbstractEntity
                 ]
             );
         }
-        $this->eventManager->dispatch('easytranslate_prepare_cms_blocks_columns');
+        $this->eventManager->dispatch('easytranslate_prepare_cms_blocks_columns', ['columns' => $this]);
 
         return parent::_prepareColumns();
     }

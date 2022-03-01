@@ -109,8 +109,8 @@ class Categories extends AbstractEntity
         }
         $categoryCollection->setStoreId($this->projectGetter->getProject()->getSourceStoreId());
         $this->eventManager->dispatch(
-            'easytranslate_prepare_categories_collection',
-            ['categoryCollection' => $categoryCollection]
+            'easytranslate_prepare_category_collection',
+            ['category_collection' => $categoryCollection]
         );
         $this->setCollection($categoryCollection);
 
@@ -160,7 +160,7 @@ class Categories extends AbstractEntity
                 ]
             );
         }
-        $this->eventManager->dispatch('easytranslate_prepare_categories_columns');
+        $this->eventManager->dispatch('easytranslate_prepare_category_columns', ['columns' => $this]);
 
         return parent::_prepareColumns();
     }
