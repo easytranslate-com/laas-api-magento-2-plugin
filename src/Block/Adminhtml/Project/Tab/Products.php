@@ -117,7 +117,10 @@ class Products extends AbstractEntity
         if ($storeId > 0) {
             $collection->addStoreFilter($storeId);
         }
-        $this->eventManager->dispatch('easytranslate_prepare_product_collection', ['product_collection' => $collection]);
+        $this->eventManager->dispatch(
+            'easytranslate_prepare_product_collection',
+            ['product_collection' => $collection]
+        );
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
