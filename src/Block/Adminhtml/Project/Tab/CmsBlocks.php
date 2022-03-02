@@ -202,7 +202,7 @@ class CmsBlocks extends AbstractEntity
                 ]
             );
         }
-        $this->eventManager->dispatch('easytranslate_prepare_cms_blocks_columns', ['columns' => $this]);
+        $this->eventManager->dispatch('easytranslate_prepare_cms_block_columns', ['block' => $this]);
 
         return parent::_prepareColumns();
     }
