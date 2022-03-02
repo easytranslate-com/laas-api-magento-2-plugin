@@ -17,6 +17,7 @@ use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Directory\Model\Currency;
 use Magento\Framework\Data\Collection as CollectionData;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\ScopeInterface;
 
@@ -35,11 +36,17 @@ class Products extends AbstractEntity
      */
     private $projectGetter;
 
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
+
     public function __construct(
         Context $context,
         Data $backendHelper,
         ProductCollectionFactory $productCollectionFactory,
-        ProjectGetter $projectGetter
+        ProjectGetter $projectGetter,
+        EventManager $eventManager
     ) {
         parent::__construct($context, $backendHelper);
         $this->setId('easytranslate_connector_products');
@@ -47,6 +54,7 @@ class Products extends AbstractEntity
         $this->setUseAjax(true);
         $this->productCollectionFactory = $productCollectionFactory;
         $this->projectGetter            = $projectGetter;
+        $this->eventManager             = $eventManager;
     }
 
     /**
@@ -109,6 +117,10 @@ class Products extends AbstractEntity
         if ($storeId > 0) {
             $collection->addStoreFilter($storeId);
         }
+        $this->eventManager->dispatch(
+            'easytranslate_prepare_product_collection',
+            ['product_collection' => $collection]
+        );
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -170,6 +182,7 @@ class Products extends AbstractEntity
                 ]
             );
         }
+        $this->eventManager->dispatch('easytranslate_prepare_product_columns', ['block' => $this]);
 
         return parent::_prepareColumns();
     }

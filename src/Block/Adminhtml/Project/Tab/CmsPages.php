@@ -16,6 +16,7 @@ use Magento\Cms\Model\Page;
 use Magento\Cms\Model\ResourceModel\Page\Collection;
 use Magento\Cms\Model\ResourceModel\Page\CollectionFactory as CmsPageCollectionFactory;
 use Magento\Framework\Data\Collection as CollectionData;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Model\PageLayout\Config\BuilderInterface;
 
@@ -44,13 +45,19 @@ class CmsPages extends AbstractEntity
      */
     private $projectGetter;
 
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
+
     public function __construct(
         Context $context,
         Data $backendHelper,
         CmsPageCollectionFactory $collectionFactory,
         Page $cmsPage,
         BuilderInterface $pageLayoutBuilder,
-        ProjectGetter $projectGetter
+        ProjectGetter $projectGetter,
+        EventManager $eventManager
     ) {
         parent::__construct($context, $backendHelper);
         $this->setId('easytranslate_connector_cms_pages');
@@ -60,6 +67,7 @@ class CmsPages extends AbstractEntity
         $this->cmsPage           = $cmsPage;
         $this->pageLayoutBuilder = $pageLayoutBuilder;
         $this->projectGetter     = $projectGetter;
+        $this->eventManager      = $eventManager;
     }
 
     /**
@@ -112,6 +120,10 @@ class CmsPages extends AbstractEntity
             $cmsPagesCollection->addFieldToFilter('main_table.page_id', ['in' => $selectedCmsPageIds]);
         }
         $cmsPagesCollection->addStoreFilter($this->projectGetter->getProject()->getSourceStoreId());
+        $this->eventManager->dispatch(
+            'easytranslate_prepare_cms_page_collection',
+            ['cms_page_collection' => $cmsPagesCollection]
+        );
         $this->setCollection($cmsPagesCollection);
 
         return parent::_prepareCollection();
@@ -205,6 +217,7 @@ class CmsPages extends AbstractEntity
                 ]
             );
         }
+        $this->eventManager->dispatch('easytranslate_prepare_cms_page_columns', ['block' => $this]);
 
         return parent::_prepareColumns();
     }

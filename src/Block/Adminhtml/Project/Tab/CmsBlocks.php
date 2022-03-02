@@ -16,8 +16,12 @@ use Magento\Cms\Model\Block;
 use Magento\Cms\Model\ResourceModel\Block\Collection;
 use Magento\Cms\Model\ResourceModel\Block\CollectionFactory as CmsBlockCollectionFactory;
 use Magento\Framework\Data\Collection as CollectionData;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CmsBlocks extends AbstractEntity
 {
     /**
@@ -35,12 +39,18 @@ class CmsBlocks extends AbstractEntity
      */
     private $projectGetter;
 
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
+
     public function __construct(
         Context $context,
         Data $backendHelper,
         CmsBlockCollectionFactory $collectionFactory,
         ProjectGetter $projectGetter,
-        Block $cmsBlock
+        Block $cmsBlock,
+        EventManager $eventManager
     ) {
         parent::__construct($context, $backendHelper);
         $this->setId('easytranslate_connector_cms_blocks');
@@ -49,6 +59,7 @@ class CmsBlocks extends AbstractEntity
         $this->collectionFactory = $collectionFactory;
         $this->cmsBlock          = $cmsBlock;
         $this->projectGetter     = $projectGetter;
+        $this->eventManager      = $eventManager;
     }
 
     /**
@@ -102,6 +113,10 @@ class CmsBlocks extends AbstractEntity
             $cmsBlocksCollection->addFieldToFilter('main_table.block_id', ['in' => $selectedCmsBlockIds]);
         }
         $cmsBlocksCollection->addStoreFilter($this->projectGetter->getProject()->getSourceStoreId());
+        $this->eventManager->dispatch(
+            'easytranslate_prepare_cms_block_collection',
+            ['cms_block_collection' => $cmsBlocksCollection]
+        );
         $this->setCollection($cmsBlocksCollection);
 
         return parent::_prepareCollection();
@@ -187,6 +202,7 @@ class CmsBlocks extends AbstractEntity
                 ]
             );
         }
+        $this->eventManager->dispatch('easytranslate_prepare_cms_block_columns', ['block' => $this]);
 
         return parent::_prepareColumns();
     }
