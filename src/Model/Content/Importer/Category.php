@@ -35,7 +35,7 @@ class Category extends AbstractImporter
      */
     protected function importObject(string $id, array $attributes, int $sourceStoreId, int $targetStoreId): void
     {
-        $category = $this->categoryRepository->get((int)$id);
+        $category = $this->categoryRepository->get((int)$id, $targetStoreId);
         $category->addData($attributes);
         $attributeCodes = array_keys($attributes);
         foreach ($attributeCodes as $attributeCode) {
