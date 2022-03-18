@@ -1,0 +1,17 @@
+ name: Publish
+
+ on:
+   push:
+     tags:
+       - '*'
+
+ jobs:
+   build:
+     name: Publish Magento Marketplace Package
+     runs-on: ubuntu-latest
+
+     steps:
+     - name: Create Marketplace Package
+       uses: customgento/mage-marketplace-package-converter-action@main
+       with:
+         access_token: ${{ secrets.ACCESS_TOKEN }}
