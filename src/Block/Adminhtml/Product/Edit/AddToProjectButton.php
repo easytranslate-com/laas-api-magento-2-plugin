@@ -32,12 +32,12 @@ class AddToProjectButton implements ButtonProviderInterface
     {
         return [
             'id'         => 'easytranslate_add_product_to_project',
-            'label'      => __('Add Product To Project'),
+            'label'      => __('Add Product To Easytranslate Project'),
             'on_click'   => sprintf(
                 "location.href = '%s';",
                 $this->url->getUrl(
                     'easytranslate/product/createProjectFromProduct',
-                    ['productIds' => $this->request->getParam('id')]
+                    ['product_id' => $this->request->getParam('id')]
                 )
             ),
             'class'      => 'save primary',

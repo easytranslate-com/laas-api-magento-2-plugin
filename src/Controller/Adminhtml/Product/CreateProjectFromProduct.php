@@ -6,12 +6,17 @@ namespace EasyTranslate\Connector\Controller\Adminhtml\Product;
 
 use EasyTranslate\Connector\Api\Data\ProjectInterface;
 use EasyTranslate\Connector\Model\Adminhtml\ProjectDataProcessor;
+use EasyTranslate\Connector\Model\Config\Source\Status;
 use EasyTranslate\Connector\Model\Config\Source\Team;
 use EasyTranslate\Connector\Model\ProjectFactory;
+use EasyTranslate\RestApiClient\Workflow;
+use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Ui\Component\MassAction\Filter;
 
 class CreateProjectFromProduct extends Action
 {
@@ -59,8 +64,12 @@ class CreateProjectFromProduct extends Action
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
-        $data           = $this->projectData();
-        $project        = $this->projectFactory->create();
+        try {
+            $data = $this->projectData();
+        } catch (Exception $exception) {
+            return $resultRedirect->setPath('catalog/product/edit/id/' . $this->getProductIds()[0]);
+        }
+        $project = $this->projectFactory->create();
         $this->dataObjectHelper->populateWithArray($project, $data, ProjectInterface::class);
         $project = $this->projectDataProcessor->saveProjectPostData($project, $data);
         $this->dataPersistor->clear('easytranslate_project');
@@ -72,20 +81,45 @@ class CreateProjectFromProduct extends Action
         );
     }
 
+    /**
+     * @throws LocalizedException
+     */
     private function projectData(): array
     {
         return [
-            'products'         => [$this->getRequest()->getParam('productIds')],
-            'price-visibility' => ['visible' => 'false'],
-            'name'             => 'Needs to be modified',
-            'team'             => $this->team->toOptionArray()[0]['value'],
-            'source_store_id'  => 0,
-            'status'           => 'open',
-            'price'            => null,
-            'workflow'         => 'translation',
-            'target_store_ids' => [1],
-            'automatic_import' => 1
-
+            ProjectInterface::PRODUCTS         => $this->getProductIds(),
+            ProjectInterface::NAME             => 'Easytranslate Project Name',
+            ProjectInterface::TEAM             => $this->getTeam(),
+            ProjectInterface::SOURCE_STORE_ID  => 0,
+            ProjectInterface::STATUS           => Status::OPEN,
+            ProjectInterface::PRICE            => null,
+            ProjectInterface::WORKFLOW         => Workflow::TYPE_TRANSLATION,
+            ProjectInterface::TARGET_STORE_IDS => [1],
+            ProjectInterface::AUTOMATIC_IMPORT => 1,
+            'price-visibility'                 => ['visible' => 'false']
         ];
+    }
+
+    private function getProductIds(): array
+    {
+        $productIds = $this->getRequest()->getParam(Filter::SELECTED_PARAM);
+        if (!empty($productIds)) {
+            return $productIds;
+        }
+
+        return [$this->getRequest()->getParam('product_id')];
+    }
+
+    /**
+     * @throws LocalizedException
+     */
+    private function getTeam()
+    {
+        if (empty($this->team->toOptionArray()[0])) {
+            $this->messageManager->addErrorMessage(__('Could not create project. Please check your credentials'));
+            throw new LocalizedException(__('Could not create project. Please check your credentials'));
+        }
+
+        return $this->team->toOptionArray()[0]['value'];
     }
 }
