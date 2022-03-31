@@ -19,6 +19,9 @@ use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CreateProject extends Action
 {
     /**
@@ -77,7 +80,7 @@ class CreateProject extends Action
         $project = $this->projectDataProcessor->saveProjectPostData($project, $data);
         $this->messageManager->addSuccessMessage(
         // @phpstan-ignore-next-line
-            (string)__('The project has successfully been created.Please change the settings according to your needs before you send the project to EasyTranslate.')
+            (string)__('The project has successfully been created.Please change the settings according to your needs before you send the project to EasyTranslate.')// phpcs:ignore
         );
 
         return $resultRedirect->setPath(
