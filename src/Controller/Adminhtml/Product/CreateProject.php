@@ -71,16 +71,16 @@ class CreateProject extends Action
         try {
             $data = $this->projectData();
         } catch (Exception $exception) {
-            $this->messageManager->addErrorMessage(__($exception->getMessage()));
+            $this->messageManager->addErrorMessage($exception->getMessage());
 
-            return $this->getReturnPath($resultRedirect);
+            return $this->setRefererRedirectUrl($resultRedirect);
         }
         $project = $this->projectFactory->create();
         $this->dataObjectHelper->populateWithArray($project, $data, ProjectInterface::class);
         $project = $this->projectDataProcessor->saveProjectPostData($project, $data);
         $this->messageManager->addSuccessMessage(
         // @phpstan-ignore-next-line
-            (string)__('The project has successfully been created.Please change the settings according to your needs before you send the project to EasyTranslate.')// phpcs:ignore
+            (string)__('The project has successfully been created. Please change the settings according to your needs before you send the project to EasyTranslate.') // phpcs:ignore
         );
 
         return $resultRedirect->setPath(
@@ -132,12 +132,12 @@ class CreateProject extends Action
         return $this->team->toOptionArray()[0]['value'];
     }
 
-    private function getReturnPath(Redirect $resultRedirect): Redirect
+    private function setRefererRedirectUrl(Redirect $resultRedirect): Redirect
     {
         if (!empty($this->getRequest()->getParam(Filter::SELECTED_PARAM))) {
             return $resultRedirect->setPath($this->redirect->getRedirectUrl());
         }
 
-        return $resultRedirect->setPath('catalog/product/edit/id/' . $this->getProductIds()[0]);
+        return $resultRedirect->setPath($this->redirect->getRedirectUrl());
     }
 }
