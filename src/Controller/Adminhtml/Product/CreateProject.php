@@ -14,11 +14,10 @@ use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Api\DataObjectHelper;
-use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
 
-class CreateProjectFromProduct extends Action
+class CreateProject extends Action
 {
     /**
      * @var Team
@@ -40,15 +39,9 @@ class CreateProjectFromProduct extends Action
      */
     private $projectDataProcessor;
 
-    /**
-     * @var DataPersistorInterface
-     */
-    private $dataPersistor;
-
     public function __construct(
         Context $context,
         Team $team,
-        DataPersistorInterface $dataPersistor,
         DataObjectHelper $dataObjectHelper,
         ProjectDataProcessor $projectDataProcessor,
         ProjectFactory $projectFactory
@@ -58,7 +51,6 @@ class CreateProjectFromProduct extends Action
         $this->projectFactory       = $projectFactory;
         $this->dataObjectHelper     = $dataObjectHelper;
         $this->projectDataProcessor = $projectDataProcessor;
-        $this->dataPersistor        = $dataPersistor;
     }
 
     public function execute()
@@ -67,13 +59,17 @@ class CreateProjectFromProduct extends Action
         try {
             $data = $this->projectData();
         } catch (Exception $exception) {
+            $this->messageManager->addErrorMessage(__('Could not create project. Please check your credentials'));
+
             return $resultRedirect->setPath('catalog/product/edit/id/' . $this->getProductIds()[0]);
         }
         $project = $this->projectFactory->create();
         $this->dataObjectHelper->populateWithArray($project, $data, ProjectInterface::class);
         $project = $this->projectDataProcessor->saveProjectPostData($project, $data);
-        $this->dataPersistor->clear('easytranslate_project');
-        $this->messageManager->addSuccessMessage((string)__('You have created a new project'));
+        $this->messageManager->addSuccessMessage(
+            (string)__('The project has successfully been created.
+        Please change the settings according to your needs before you send the project to EasyTranslate.')
+        );
 
         return $resultRedirect->setPath(
             'easytranslate/project/edit',
@@ -94,7 +90,7 @@ class CreateProjectFromProduct extends Action
             ProjectInterface::STATUS           => Status::OPEN,
             ProjectInterface::PRICE            => null,
             ProjectInterface::WORKFLOW         => Workflow::TYPE_TRANSLATION,
-            ProjectInterface::TARGET_STORE_IDS => [1],
+            ProjectInterface::TARGET_STORE_IDS => [],
             ProjectInterface::AUTOMATIC_IMPORT => 1,
             'price-visibility'                 => ['visible' => 'false']
         ];
@@ -116,8 +112,9 @@ class CreateProjectFromProduct extends Action
     private function getTeam()
     {
         if (empty($this->team->toOptionArray()[0])) {
-            $this->messageManager->addErrorMessage(__('Could not create project. Please check your credentials'));
-            throw new LocalizedException(__('Could not create project. Please check your credentials'));
+            throw new LocalizedException(
+                __('Could not create project. Please check your API and EasyTranslate settings.')
+            );
         }
 
         return $this->team->toOptionArray()[0]['value'];

@@ -2,7 +2,7 @@
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="buttons" xsi:type="array">
-            <item name="easytranslate_add_product_to_project" xsi:type="string">EasyTranslate\Connector\Block\Adminhtml\Product\Edit\AddToProjectButton</item>
+            <item name="easytranslate_create_project" xsi:type="string">EasyTranslate\Connector\Block\Adminhtml\Product\Edit\CreateProjectButton</item>
         </item>
     </argument>
 </form>
