@@ -33,15 +33,12 @@ class CreateProjectButton implements ButtonProviderInterface
         return [
             'id'         => 'easytranslate_create_project',
             'label'      => __('Create Easytranslate Project'),
-            'on_click'   => sprintf(
-                "location.href = '%s';",
-                $this->url->getUrl(
-                    'easytranslate/product/createProject',
-                    ['product_id' => $this->request->getParam('id')]
-                )
-            ),
-            'class'      => 'save primary',
-            'sort_order' => 100
+            'on_click'   => sprintf("window.open('%s','_blank')", $this->url->getUrl(
+                'easytranslate/product/createProject',
+                ['product_id' => $this->request->getParam('id')]
+            )),
+            'class'      => 'action-secondary',
+            'sort_order' => 80
         ];
     }
 }

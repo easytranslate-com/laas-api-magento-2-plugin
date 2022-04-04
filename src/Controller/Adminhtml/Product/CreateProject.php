@@ -103,8 +103,7 @@ class CreateProject extends Action
             ProjectInterface::PRICE            => null,
             ProjectInterface::WORKFLOW         => Workflow::TYPE_TRANSLATION,
             ProjectInterface::TARGET_STORE_IDS => [],
-            ProjectInterface::AUTOMATIC_IMPORT => 1,
-            'price-visibility'                 => ['visible' => 'false']
+            ProjectInterface::AUTOMATIC_IMPORT => 1
         ];
     }
 
@@ -134,10 +133,6 @@ class CreateProject extends Action
 
     private function setRefererRedirectUrl(Redirect $resultRedirect): Redirect
     {
-        if (!empty($this->getRequest()->getParam(Filter::SELECTED_PARAM))) {
-            return $resultRedirect->setPath($this->redirect->getRedirectUrl());
-        }
-
         return $resultRedirect->setPath($this->redirect->getRedirectUrl());
     }
 }
