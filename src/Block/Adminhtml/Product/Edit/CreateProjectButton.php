@@ -31,7 +31,7 @@ class CreateProjectButton implements ButtonProviderInterface
     public function getButtonData(): array
     {
         $productId = $this->request->getParam('id');
-        if (is_null($productId)) {
+        if ($productId === null) {
             return [];
         }
 
