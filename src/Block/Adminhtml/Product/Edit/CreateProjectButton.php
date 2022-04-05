@@ -30,12 +30,17 @@ class CreateProjectButton implements ButtonProviderInterface
 
     public function getButtonData(): array
     {
+        $productId = $this->request->getParam('id');
+        if (is_null($productId)) {
+            return [];
+        }
+
         return [
             'id'         => 'easytranslate_create_project',
             'label'      => __('Create Easytranslate Project'),
             'on_click'   => sprintf("window.open('%s','_blank')", $this->url->getUrl(
                 'easytranslate/product/createProject',
-                ['product_id' => $this->request->getParam('id')]
+                ['product_id' => $productId]
             )),
             'class'      => 'action-secondary',
             'sort_order' => 80
