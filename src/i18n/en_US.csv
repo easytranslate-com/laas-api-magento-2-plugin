@@ -23,6 +23,7 @@ Layout,Layout
 SKU,SKU
 Price,Price
 "The project has successfully been created. Please change the settings according to your needs before you send the project to EasyTranslate.","The project has successfully been created. Please change the settings according to your needs before you send the project to EasyTranslate."
+"Could not find the requested product. Please check if the product exists.","Could not find the requested product. Please check if the product exists."
 "Could not create project. Please check your API and EasyTranslate settings.","Could not create project. Please check your API and EasyTranslate settings."
 "The price of the project has successfully been accepted.","The price of the project has successfully been accepted."
 "New Project","New Project"

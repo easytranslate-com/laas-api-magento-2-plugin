@@ -107,14 +107,23 @@ class CreateProject extends Action
         ];
     }
 
+    /**
+     * @throws LocalizedException
+     */
     private function getProductIds(): array
     {
         $productIds = $this->getRequest()->getParam(Filter::SELECTED_PARAM);
+        $productId  = $this->getRequest()->getParam('product_id');
         if (!empty($productIds)) {
             return $productIds;
         }
+        if ($productId === null) {
+            throw new LocalizedException(
+                __('Could not find the requested product. Please check if the product exists.')
+            );
+        }
 
-        return [$this->getRequest()->getParam('product_id')];
+        return [$productId];
     }
 
     /**
