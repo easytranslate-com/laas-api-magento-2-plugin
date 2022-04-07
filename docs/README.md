@@ -38,6 +38,14 @@ In this step you can also decide, if the translations shall be automatically imp
 
 ![EasyTranslate Magento 2 Create Project](images/easytranslate-m2-connector-create-project.png "EasyTranslate Magento 2 Create Project")
 
+Alternatively, you can also create an EasyTranslate project directly from the product grid via a mass action:
+
+![EasyTranslate Magento 2 Create Project From Product Grid](images/easytranslate-m2-connector-create-project-from-product-grid.png "EasyTranslate Magento 2 Create Project From Product Grid")
+
+And as another option, you can also create an EasyTranslate project directly from the product edit page:
+
+![EasyTranslate Magento 2 Create Project From Product Edit Page](images/easytranslate-m2-connector-create-project-from-product-edit-page.png "EasyTranslate Magento 2 Create Project From Product Edit Page")
+
 ### Add Content To Project
 
 Open the project from System > EasyTranslate Projects. Click on the entity type you want to add.
