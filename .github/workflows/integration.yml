@@ -125,3 +125,10 @@ jobs:
           module_name: EasyTranslate_Connector
           composer_name: easytranslate/m2-connector
           ce_version: '2.4.4'
+      - uses: actions/checkout@v2
+      - name: M2 Integration Tests with Magento 2 Version 2.4.4 (PHP 8.1)
+        uses: extdn/github-actions-m2/magento-integration-tests/8.1@master
+        with:
+          module_name: EasyTranslate_Connector
+          composer_name: easytranslate/m2-connector
+          ce_version: '2.4.4'
