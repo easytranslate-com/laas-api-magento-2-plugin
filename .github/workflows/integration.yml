@@ -118,3 +118,4 @@ jobs:
           module_name: EasyTranslate_Connector
           composer_name: easytranslate/m2-connector
           ce_version: '2.4.4'
+          composer_version: '2'
