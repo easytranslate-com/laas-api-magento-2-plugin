@@ -43,7 +43,7 @@ class AssignedCategories extends AbstractBlock
             return $this->jsonEncoder->encode([]);
         }
 
-        return $this->jsonEncoder->encode($project->getCmsPages());
+        return $this->jsonEncoder->encode($project->getCategories());
     }
 
     /**
