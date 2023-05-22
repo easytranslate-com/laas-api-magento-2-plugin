@@ -14,3 +14,4 @@ jobs:
       - uses: extdn/github-actions-m2/magento-phpstan@master
         with:
           composer_name: easytranslate/m2-connector
+          composer_version: '2'
