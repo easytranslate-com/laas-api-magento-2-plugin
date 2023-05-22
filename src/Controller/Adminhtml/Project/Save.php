@@ -17,7 +17,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\App\Request\DataPersistorInterface;
-use Magento\Framework\Json\DecoderInterface;
+use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -52,9 +52,9 @@ class Save extends Action
     private $projectDataProcessor;
 
     /**
-     * @var DecoderInterface
+     * @var JsonSerializer
      */
-    private $decoder;
+    private $jsonSerializer;
 
     /**
      * @var Config
@@ -67,15 +67,15 @@ class Save extends Action
     private $bridgeProjectFactory;
 
     public function __construct(
-        Context $context,
-        DataPersistorInterface $dataPersistor,
-        DataObjectHelper $dataObjectHelper,
+        Context                    $context,
+        DataPersistorInterface     $dataPersistor,
+        DataObjectHelper           $dataObjectHelper,
         ProjectRepositoryInterface $projectRepository,
-        ProjectDataProcessor $projectDataProcessor,
-        ProjectFactory $projectFactory,
-        DecoderInterface $decoder,
-        Config $config,
-        BridgeProjectFactory $bridgeProjectFactory
+        ProjectDataProcessor       $projectDataProcessor,
+        ProjectFactory             $projectFactory,
+        JsonSerializer             $jsonSerializer,
+        Config                     $config,
+        BridgeProjectFactory       $bridgeProjectFactory
     ) {
         parent::__construct($context);
         $this->dataPersistor        = $dataPersistor;
@@ -83,7 +83,7 @@ class Save extends Action
         $this->projectRepository    = $projectRepository;
         $this->projectFactory       = $projectFactory;
         $this->projectDataProcessor = $projectDataProcessor;
-        $this->decoder              = $decoder;
+        $this->jsonSerializer       = $jsonSerializer;
         $this->config               = $config;
         $this->bridgeProjectFactory = $bridgeProjectFactory;
     }
@@ -154,7 +154,7 @@ class Save extends Action
         ];
         foreach ($entityFields as $entityField) {
             if (isset($data[$entityField])) {
-                $data[$entityField] = $this->decoder->decode($data[$entityField]);
+                $data[$entityField] = $this->jsonSerializer->unserialize($data[$entityField]);
             }
         }
 
