@@ -8,6 +8,7 @@ use EasyTranslate\Connector\Model\Callback\LinkGenerator;
 use EasyTranslate\Connector\Model\Callback\PriceApprovalRequestHandler;
 use EasyTranslate\Connector\Model\Callback\TaskCompletedHandler;
 use EasyTranslate\RestApiClient\Api\Callback\Event;
+use InvalidArgumentException;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
@@ -20,10 +21,9 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\Header;
-use Magento\Framework\Json\DecoderInterface;
+use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 use Magento\Framework\Webapi\Exception;
 use Magento\Framework\Webapi\Response;
-use Zend_Json_Exception;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -42,9 +42,9 @@ class Execute extends Action implements HttpPostActionInterface, CsrfAwareAction
     private $header;
 
     /**
-     * @var DecoderInterface
+     * @var JsonSerializer
      */
-    private $decoder;
+    private $jsonSerializer;
 
     /**
      * @var PriceApprovalRequestHandler
@@ -62,15 +62,15 @@ class Execute extends Action implements HttpPostActionInterface, CsrfAwareAction
     private $params;
 
     public function __construct(
-        Context $context,
-        Header $header,
-        DecoderInterface $decoder,
+        Context                     $context,
+        Header                      $header,
+        JsonSerializer              $jsonSerializer,
         PriceApprovalRequestHandler $priceApprovalRequestHandler,
-        TaskCompletedHandler $taskCompletedHandler
+        TaskCompletedHandler        $taskCompletedHandler
     ) {
         parent::__construct($context);
         $this->header                      = $header;
-        $this->decoder                     = $decoder;
+        $this->jsonSerializer              = $jsonSerializer;
         $this->priceApprovalRequestHandler = $priceApprovalRequestHandler;
         $this->taskCompletedHandler        = $taskCompletedHandler;
     }
@@ -112,11 +112,11 @@ class Execute extends Action implements HttpPostActionInterface, CsrfAwareAction
 
         $json = $request->getContent();
         try {
-            $params               = $this->decoder->decode($json);
+            $params               = $this->jsonSerializer->unserialize($json);
             $secretParam          = LinkGenerator::SECRET_PARAM;
             $params[$secretParam] = $request->getParam($secretParam);
             $this->params         = $params;
-        } catch (Zend_Json_Exception $e) {
+        } catch (InvalidArgumentException $e) {
             return false;
         }
 
