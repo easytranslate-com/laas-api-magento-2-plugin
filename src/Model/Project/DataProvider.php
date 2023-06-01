@@ -6,11 +6,11 @@ namespace EasyTranslate\Connector\Model\Project;
 
 use EasyTranslate\Connector\Api\Data\ProjectInterface;
 use EasyTranslate\Connector\Model\ResourceModel\Project\Collection as ProjectsCollection;
+use Exception;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Locale\CurrencyInterface;
 use Magento\Ui\DataProvider\AbstractDataProvider;
-use Zend_Currency_Exception;
 
 class DataProvider extends AbstractDataProvider
 {
@@ -104,7 +104,7 @@ class DataProvider extends AbstractDataProvider
         try {
             $convertedCurrency                     = $currency->toCurrency($this->loadedData[$projectId]['price']);
             $this->loadedData[$projectId]['price'] = $convertedCurrency;
-        } catch (Zend_Currency_Exception $e) {
+        } catch (Exception $e) {
             $this->loadedData[$projectId]['price'] .= ' ' . $this->loadedData[$projectId]['currency'];
         }
     }
