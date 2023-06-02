@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EasyTranslate\Connector\Ui\Component\Listing\Column;
 
+use Exception;
 use Magento\Framework\Locale\CurrencyInterface;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
-use Zend_Currency_Exception;
 
 class Price extends Column
 {
@@ -38,7 +38,7 @@ class Price extends Column
                     try {
                         $convertedCurrency = $currency->toCurrency($item[$fieldName]);
                         $item[$fieldName]  = $convertedCurrency;
-                    } catch (Zend_Currency_Exception $e) {
+                    } catch (Exception $e) {
                         $item[$fieldName] .= ' ' . $item['currency'];
                     }
                 }
