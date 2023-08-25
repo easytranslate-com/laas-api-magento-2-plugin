@@ -47,6 +47,7 @@ class TargetMapper extends AbstractMapper
             'fi_FI'      => 'fi',
             'fr_BE'      => 'fr_FR',
             'fr_CA'      => 'fr_CA',
+            'fr_CH'      => 'fr_CH',
             'fr_FR'      => 'fr_FR',
             'fa_IR'      => 'fa_IR',
             'gl_ES'      => 'gl',
