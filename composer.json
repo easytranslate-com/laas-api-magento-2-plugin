@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "easytranslate/rest-api-client": "dev-DEV-654-m247-php83",
+        "easytranslate/rest-api-client": "~0.1.5",
         "magento/framework": "~102.0||~103.0",
         "magento/module-backend": "~101.0||~102.0",
         "magento/module-catalog": "~103.0||~104.0",
