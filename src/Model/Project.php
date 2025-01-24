@@ -123,7 +123,7 @@ class Project extends AbstractModel implements ProjectInterface
 
     public function getTargetStoreIds(): array
     {
-        return $this->getData(self::TARGET_STORE_IDS);
+        return (array)$this->getData(self::TARGET_STORE_IDS);
     }
 
     public function setTargetStoreIds(array $targetStoreIds): ProjectInterface
@@ -193,6 +193,26 @@ class Project extends AbstractModel implements ProjectInterface
     public function setWorkflow(string $workflow): ProjectInterface
     {
         return $this->setData(self::WORKFLOW, $workflow);
+    }
+
+    public function getWorkflowIdentifier(): ?string
+    {
+        return $this->getData(self::WORKFLOW_IDENTIFIER);
+    }
+
+    public function setWorkflowIdentifier(string $workflowIdentifier): ProjectInterface
+    {
+        return $this->setData(self::WORKFLOW_IDENTIFIER, $workflowIdentifier);
+    }
+
+    public function getWorkflowName(): ?string
+    {
+        return $this->getData(self::WORKFLOW_NAME);
+    }
+
+    public function setWorkflowName(string $workflowName): ProjectInterface
+    {
+        return $this->setData(self::WORKFLOW_NAME, $workflowName);
     }
 
     public function hasAutomaticImport(): bool

@@ -121,7 +121,9 @@ class ExecuteTest extends AbstractController
                 'id'         => 'id',
                 'type'       => 'task',
                 'attributes' => [
-                    'project_id'      => 'project_id',
+                    'project'         => [
+                        'id' => 'project_id',
+                    ],
                     'target_content'  => 'target_content',
                     'target_language' => 'target_language',
                 ],
@@ -191,7 +193,9 @@ class ExecuteTest extends AbstractController
                 'id'         => 'external_task_id',
                 'type'       => 'task',
                 'attributes' => [
-                    'project_id'      => 'external_id',
+                    'project'         => [
+                        'id' => 'external_id',
+                    ],
                     'target_content'  => $targetContent,
                     'target_language' => 'de',
                 ],

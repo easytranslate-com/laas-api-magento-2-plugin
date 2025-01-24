@@ -106,12 +106,10 @@
                 <options class="Magento\Store\Ui\Component\Listing\Column\Store\Options"/>
             </settings>
         </column>
-        <column name="workflow" component="Magento_Ui/js/grid/columns/select" sortOrder="50">
+        <column name="workflow_name" sortOrder="50">
             <settings>
                 <label translate="true">Workflow</label>
-                <filter>select</filter>
-                <dataType>select</dataType>
-                <options class="EasyTranslate\Connector\Model\Config\Source\Workflow"/>
+                <filter>text</filter>
             </settings>
         </column>
         <column name="status" component="Magento_Ui/js/grid/columns/select" sortOrder="60">

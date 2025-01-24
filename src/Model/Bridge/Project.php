@@ -120,7 +120,7 @@ class Project implements ProjectInterface
         return $this->contentGenerator->generateContent($this->magentoProject);
     }
 
-    public function getWorkflow(): string
+    public function getWorkflowId(): string
     {
         return $this->magentoProject->getWorkflow();
     }

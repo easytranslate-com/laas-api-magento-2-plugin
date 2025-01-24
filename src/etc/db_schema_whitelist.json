@@ -13,6 +13,8 @@
             "created_at": true,
             "updated_at": true,
             "workflow": true,
+            "workflow_identifier": true,
+            "workflow_name": true,
             "automatic_import": true
         },
         "constraint": {

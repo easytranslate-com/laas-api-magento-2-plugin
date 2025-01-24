@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace EasyTranslate\Connector\Model\ResourceModel;
 
 use EasyTranslate\Connector\Api\Data\ProjectInterface;
+use EasyTranslate\Connector\Model\Config;
 use EasyTranslate\Connector\Model\Project as ProjectModel;
+use EasyTranslate\RestApiClient\Api\ApiException;
+use EasyTranslate\RestApiClient\Api\TeamApi;
 use Exception;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\DB\Adapter\AdapterInterface;
@@ -26,15 +29,22 @@ class Project extends AbstractDb
      */
     protected $connection;
 
+    /**
+     * @var Config
+     */
+    private $config;
+
     public function __construct(
         Context $context,
         DateTime $coreDate,
         ResourceConnection $resource,
+        Config $config,
         $connectionName = null
     ) {
         parent::__construct($context, $connectionName);
         $this->coreDate   = $coreDate;
         $this->connection = $resource->getConnection();
+        $this->config     = $config;
     }
 
     protected function _construct(): void
@@ -51,10 +61,12 @@ class Project extends AbstractDb
             $project->setData(ProjectInterface::PROJECT_ID);
         }
         $project->setUpdatedAt($this->coreDate->gmtDate());
+        $this->enrichWorkflowData($project);
 
         if ($project->getData('secret') === null) {
             $project->setData('secret', bin2hex(random_bytes(32)));
         }
+
         // make sure that we do not translate from and to the same language
         $sourceStoreId  = (array)$project->getData(ProjectInterface::SOURCE_STORE_ID);
         $targetStoreIds = (array)$project->getData(ProjectInterface::TARGET_STORE_IDS);
@@ -62,6 +74,30 @@ class Project extends AbstractDb
         $project->setData(ProjectInterface::TARGET_STORE_IDS, $targetStoreIds);
 
         return parent::_beforeSave($project);
+    }
+
+    private function enrichWorkflowData(ProjectInterface $project): void
+    {
+        $workflowId = $project->getWorkflow();
+        if (!$workflowId) {
+            return;
+        }
+        try {
+            $apiConfiguration    = $this->config->getApiConfiguration();
+            $teamDetailsResponse = (new TeamApi($apiConfiguration))->getTeamDetails($project->getTeam() ?? '');
+        } catch (ApiException $e) {
+            return;
+        }
+
+        foreach ($teamDetailsResponse->getWorkflows() as $workflow) {
+            if ($workflow->getId() !== $workflowId) {
+                continue;
+            }
+            $project->setWorkflowIdentifier($workflow->getIdentifier());
+            $project->setWorkflowName($workflow->getDisplayName());
+
+            return;
+        }
     }
 
     protected function _afterSave(AbstractModel $project)
