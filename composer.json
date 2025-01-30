@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "easytranslate/rest-api-client": "@dev",
+        "easytranslate/rest-api-client": "^2.0",
         "ext-pcre": "*",
         "magento/framework": "^102.0||^103.0",
         "magento/module-backend": "^101.0||^102.0",
