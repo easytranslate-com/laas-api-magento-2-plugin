@@ -22,6 +22,7 @@ use Magento\Store\Model\ScopeInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Project extends AbstractModel implements ProjectInterface
 {
