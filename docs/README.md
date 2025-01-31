@@ -32,9 +32,12 @@ this, [EthanYehuda_CronjobManager](https://github.com/Ethan3600/magento2-Cronjob
 
 ### Create Projects / Access Existing Projects
 
-Go to System > EasyTranslate Projects. Click the "Add Project" button in the upper right corner. Add the basic project
-information and click "Save and Continue Edit".
-In this step you can also decide, if the translations shall be automatically imported or only on manual scheduling.
+Go to System > EasyTranslate Projects. Click the "Add Project" button in the upper right corner. Add a name, configure
+the account and click "Save and Continue Edit". The workflows setting will show the available workflows under this
+account. Configure the workflow and click "Save and Continue Edit". The "Source Store View" and "Target Store Views"
+will show all stores with languages supported by the selected workflow. Select the source and target store views and
+click "Save and Continue Edit".
+In this step you can also decide, if the translations shall be automatically imported or only when manually scheduled.
 
 ![EasyTranslate Magento 2 Create Project](images/easytranslate-m2-connector-create-project.png "EasyTranslate Magento 2 Create Project")
 
