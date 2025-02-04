@@ -7,6 +7,7 @@ namespace EasyTranslate\Connector\Model\Callback;
 use EasyTranslate\Connector\Model\ProjectFactory;
 use EasyTranslate\Connector\Model\ResourceModel\Task\CollectionFactory as TaskCollectionFactory;
 use EasyTranslate\RestApiClient\Api\Callback\DataConverter\TaskCompletedConverter;
+use EasyTranslate\RestApiClient\TaskInterface;
 use Magento\Framework\Exception\LocalizedException;
 
 class TaskCompletedHandler
@@ -41,9 +42,12 @@ class TaskCompletedHandler
         }
         $tasks = $this->taskCollectionFactory->create()->addFieldToFilter('external_id', $response->getTask()->getId());
         foreach ($tasks as $task) {
-            $task->setData('content_link', $response->getTask()->getTargetContent());
-            // make sure the task is imported again if there is another update
-            $task->setData('processed_at', null);
+            $task->setData('status', $response->getTask()->getStatus());
+            if ($response->getTask()->getStatus() === TaskInterface::STATUS_COMPLETED) {
+                $task->setData('content_link', $response->getTask()->getTargetContent());
+                // make sure the task is imported again if there is another update
+                $task->setData('processed_at', null);
+            }
             $task->save();
         }
     }

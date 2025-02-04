@@ -9,9 +9,9 @@ use EasyTranslate\Connector\Model\Config\Source\Status;
 use EasyTranslate\Connector\Model\Locale\TargetMapper;
 use EasyTranslate\Connector\Model\ResourceModel\Project\Collection;
 use EasyTranslate\Connector\Model\ResourceModel\Task\Collection as TaskCollection;
-use EasyTranslate\Connector\Model\TaskFactory;
 use EasyTranslate\Connector\Model\ResourceModel\Task\CollectionFactory as TaskCollectionFactory;
 use EasyTranslate\RestApiClient\ProjectInterface as ExternalProjectInterface;
+use EasyTranslate\RestApiClient\TaskInterface;
 use Exception;
 use Magento\Directory\Helper\Data;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -323,17 +323,18 @@ class Project extends AbstractModel implements ProjectInterface
 
     public function updateTasksStatus(): Project
     {
-        $numberOfTasks = $this->getTaskCollection()->getSize();
-        if ($numberOfTasks === 0) {
+        $numberOfImportTasks = count($this->getTargetStoreIds());
+        if ($numberOfImportTasks === 0) {
             return $this;
         }
         $numberOfCompletedTasks = $this->getTaskCollection()
             ->addFieldToFilter('processed_at', ['notnull' => true])
+            ->addFieldToFilter('status', TaskInterface::STATUS_COMPLETED)
             ->getSize();
-        if ($numberOfTasks === $numberOfCompletedTasks) {
-            $this->setData('status', Status::FINISHED);
+        if ($numberOfImportTasks === $numberOfCompletedTasks) {
+            $this->setStatus(Status::FINISHED);
         } elseif ($numberOfCompletedTasks > 0) {
-            $this->setData('status', Status::PARTIALLY_FINISHED);
+            $this->setStatus(Status::PARTIALLY_FINISHED);
         }
 
         return $this;
@@ -356,6 +357,7 @@ class Project extends AbstractModel implements ProjectInterface
                 $magentoTask->setData('external_id', $externalTask->getId());
                 $magentoTask->setData('store_id', $targetStoreId);
                 $magentoTask->setData('content_link', $externalTask->getTargetContent());
+                $magentoTask->setData('status', $externalTask->getStatus());
                 $magentoTask->save();
             }
         }

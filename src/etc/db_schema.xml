@@ -101,8 +101,9 @@
         <column name="external_id" xsi:type="varchar" length="255" comment="External ID"/>
         <column name="store_id" xsi:type="smallint" nullable="false" unsigned="true" comment="Store ID"/>
         <column name="content_link" xsi:type="varchar" length="255" comment="Content Link"/>
+        <column name="status" xsi:type="varchar" length="64" comment="Status"/>
         <column name="created_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP" comment="Created At"/>
-        <column name="processed_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP" comment="Processed At"/>
+        <column name="processed_at" xsi:type="timestamp" comment="Processed At"/>
         <constraint xsi:type="foreign" referenceId="EASYTRANSLATE_TASK_PROJECT_ID_EASYTRANSLATE_PROJECT_PROJECT_ID" table="easytranslate_task" column="project_id" referenceTable="easytranslate_project" referenceColumn="project_id" onDelete="CASCADE"/>
         <constraint xsi:type="foreign" referenceId="EASYTRANSLATE_TASK_STORE_ID_STORE_STORE_ID" table="easytranslate_task" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">

@@ -81,4 +81,9 @@ class Task implements TaskInterface
 
         return $this->targetMapper->mapMagentoCodeToExternalCode($targetLocale);
     }
+
+    public function getStatus(): string
+    {
+        return $this->task->getData('status') ?? '';
+    }
 }
