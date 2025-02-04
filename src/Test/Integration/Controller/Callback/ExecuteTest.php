@@ -11,6 +11,7 @@ use EasyTranslate\Connector\Model\Project;
 use EasyTranslate\Connector\Model\Task;
 use EasyTranslate\Connector\Model\TaskFactory;
 use EasyTranslate\RestApiClient\Api\Callback\Event;
+use EasyTranslate\RestApiClient\TaskInterface;
 use Laminas\Http\Request;
 use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\App\Response\Http as HttpResponse;
@@ -198,6 +199,7 @@ class ExecuteTest extends AbstractController
                     ],
                     'target_content'  => $targetContent,
                     'target_language' => 'de',
+                    'status'          => TaskInterface::STATUS_COMPLETED,
                 ],
             ],
         ];
