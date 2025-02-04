@@ -21,6 +21,9 @@ use Magento\Framework\Webapi\Exception;
 use Magento\Framework\Webapi\Response;
 use Magento\TestFramework\TestCase\AbstractController;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ExecuteTest extends AbstractController
 {
     /**
