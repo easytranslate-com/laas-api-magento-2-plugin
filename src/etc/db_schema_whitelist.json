@@ -13,6 +13,8 @@
             "created_at": true,
             "updated_at": true,
             "workflow": true,
+            "workflow_identifier": true,
+            "workflow_name": true,
             "automatic_import": true
         },
         "constraint": {
@@ -98,6 +100,7 @@
             "external_id": true,
             "store_id": true,
             "content_link": true,
+            "status": true,
             "created_at": true,
             "processed_at": true
         },

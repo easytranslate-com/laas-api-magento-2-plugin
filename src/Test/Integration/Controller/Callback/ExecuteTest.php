@@ -11,6 +11,7 @@ use EasyTranslate\Connector\Model\Project;
 use EasyTranslate\Connector\Model\Task;
 use EasyTranslate\Connector\Model\TaskFactory;
 use EasyTranslate\RestApiClient\Api\Callback\Event;
+use EasyTranslate\RestApiClient\TaskInterface;
 use Laminas\Http\Request;
 use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\App\Response\Http as HttpResponse;
@@ -20,6 +21,9 @@ use Magento\Framework\Webapi\Exception;
 use Magento\Framework\Webapi\Response;
 use Magento\TestFramework\TestCase\AbstractController;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ExecuteTest extends AbstractController
 {
     /**
@@ -121,7 +125,9 @@ class ExecuteTest extends AbstractController
                 'id'         => 'id',
                 'type'       => 'task',
                 'attributes' => [
-                    'project_id'      => 'project_id',
+                    'project'         => [
+                        'id' => 'project_id',
+                    ],
                     'target_content'  => 'target_content',
                     'target_language' => 'target_language',
                 ],
@@ -191,9 +197,12 @@ class ExecuteTest extends AbstractController
                 'id'         => 'external_task_id',
                 'type'       => 'task',
                 'attributes' => [
-                    'project_id'      => 'external_id',
+                    'project'         => [
+                        'id' => 'external_id',
+                    ],
                     'target_content'  => $targetContent,
                     'target_language' => 'de',
+                    'status'          => TaskInterface::STATUS_COMPLETED,
                 ],
             ],
         ];

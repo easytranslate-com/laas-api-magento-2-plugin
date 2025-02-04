@@ -9,7 +9,6 @@ use EasyTranslate\Connector\Model\Adminhtml\ProjectDataProcessor;
 use EasyTranslate\Connector\Model\Config\Source\Status;
 use EasyTranslate\Connector\Model\Config\Source\Team;
 use EasyTranslate\Connector\Model\ProjectFactory;
-use EasyTranslate\RestApiClient\Workflow;
 use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -101,9 +100,9 @@ class CreateProject extends Action
             ProjectInterface::SOURCE_STORE_ID  => 0,
             ProjectInterface::STATUS           => Status::OPEN,
             ProjectInterface::PRICE            => null,
-            ProjectInterface::WORKFLOW         => Workflow::TYPE_TRANSLATION,
+            ProjectInterface::WORKFLOW         => '',
             ProjectInterface::TARGET_STORE_IDS => [],
-            ProjectInterface::AUTOMATIC_IMPORT => 1
+            ProjectInterface::AUTOMATIC_IMPORT => 1,
         ];
     }
 

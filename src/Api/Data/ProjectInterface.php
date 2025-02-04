@@ -19,6 +19,8 @@ interface ProjectInterface
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
     public const WORKFLOW = 'workflow';
+    public const WORKFLOW_IDENTIFIER = 'workflow_identifier';
+    public const WORKFLOW_NAME = 'workflow_name';
     public const AUTOMATIC_IMPORT = 'automatic_import';
     public const PRODUCTS = 'products';
     public const CATEGORIES = 'categories';
@@ -173,6 +175,30 @@ interface ProjectInterface
      * @return ProjectInterface
      */
     public function setWorkflow(string $workflow): ProjectInterface;
+
+    /**
+     * @return string|null
+     */
+    public function getWorkflowIdentifier(): ?string;
+
+    /**
+     * @param string $workflowIdentifier
+     *
+     * @return ProjectInterface
+     */
+    public function setWorkflowIdentifier(string $workflowIdentifier): ProjectInterface;
+
+    /**
+     * @return string|null
+     */
+    public function getWorkflowName(): ?string;
+
+    /**
+     * @param string $workflowName
+     *
+     * @return ProjectInterface
+     */
+    public function setWorkflowName(string $workflowName): ProjectInterface;
 
     /**
      * @return bool

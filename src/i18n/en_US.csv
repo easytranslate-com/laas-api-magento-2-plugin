@@ -59,14 +59,14 @@ Open,Open
 "Price Declined","Price Declined"
 "Partially Finished","Partially Finished"
 Finished,Finished
-Translation,Translation
-"Translation and review","Translation and review"
-"Translate yourself","Translate yourself"
 "The collection has more than two entities per identifier.","The collection has more than two entities per identifier."
 "Unsupported locale code: %1","Unsupported locale code: %1"
 "Could not save the project: %1","Could not save the project: %1"
 "Project with id ""%1"" does not exist.","Project with id ""%1"" does not exist."
 "Could not delete the Project: %1","Could not delete the Project: %1"
+Translation,Translation
+"Translation and review","Translation and review"
+"Translate yourself","Translate yourself"
 tbd,tbd
 Edit,Edit
 "See Projects","See Projects"
@@ -94,9 +94,12 @@ Categories,Categories
 "Select the CMS page attributes, which should be translated","Select the CMS page attributes, which should be translated"
 Account,Account
 "If no account is displayed, please check your API and EasyTranslate settings.","If no account is displayed, please check your API and EasyTranslate settings."
-"Source Store View","Source Store View"
-"Target Store Views","Target Store Views"
 Workflow,Workflow
+"If no workflow is displayed, please select an account first and save the project.","If no workflow is displayed, please select an account first and save the project."
+"If no source store view is displayed, please select a workflow first and save the project.","If no source store view is displayed, please select a workflow first and save the project."
+"Source Store View","Source Store View"
+"If no target store view is displayed, please select a source store view first and save the project.","If no target store view is displayed, please select a source store view first and save the project."
+"Target Store Views","Target Store Views"
 "Automatic Import","Automatic Import"
 "Add New Project","Add New Project"
 "Delete selected projects?","Delete selected projects?"
