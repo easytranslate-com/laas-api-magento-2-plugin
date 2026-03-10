@@ -55,8 +55,8 @@ class Project extends AbstractModel implements ProjectInterface
         TargetMapper $mapper,
         ScopeConfigInterface $config,
         TaskFactory $taskFactory,
-        ResourceModel\Project $resource = null,
-        Collection $resourceCollection = null,
+        ?ResourceModel\Project $resource = null,
+        ?Collection $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

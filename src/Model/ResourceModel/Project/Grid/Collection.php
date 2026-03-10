@@ -36,8 +36,8 @@ class Collection extends ProjectCollection implements SearchResultInterface
         $eventObject,
         $resourceModel,
         $model = Document::class,
-        AdapterInterface $connection = null,
-        AbstractDb $resource = null
+        ?AdapterInterface $connection = null,
+        ?AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_eventPrefix = $eventPrefix;
@@ -49,7 +49,7 @@ class Collection extends ProjectCollection implements SearchResultInterface
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function setItems(array $items = null): Collection
+    public function setItems(?array $items = null): Collection
     {
         return $this;
     }
